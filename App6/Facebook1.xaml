@@ -1,0 +1,242 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App6"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Class="App6.BlankPage1"
+    Loaded="Page_Loaded"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d"
+    xmlns:Models="using:App6.Models"
+    
+    Unloaded="Page_Unloaded">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <DrillInNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Models:ucCommandBar x:Name="_ucCommandBar" />
+        <Grid Grid.Row="1" Name="gdWeb">
+            <Grid Background="#4267B2"
+                    Name="gdWebLoading">
+                <Image Source="/Assets/fb.png" 
+                        Height="100"
+                        Margin="0,0,0,50"
+                        Width="100"/>
+            </Grid>
+            <WebView x:Name="web"
+                     LongRunningScriptDetected="web_LongRunningScriptDetected"
+				     LoadCompleted="web_LoadCompleted"
+                     NewWindowRequested="web_NewWindowRequested"
+                     DefaultBackgroundColor="#171717"
+                     ContentLoading="web_ContentLoading"
+                     NavigationStarting="web_NavigationStarting"
+                     NavigationCompleted="web_NavigationCompleted"
+                     UnviewableContentIdentified="web_UnviewableContentIdentified"
+				     Margin="0,0,0,0" />
+            <Button Visibility="{Binding ElementName=_ucCommandBar, Path=Visibility, Converter={StaticResource InvertVisibility}}"
+                    Style="{StaticResource CompactOverlayButton}"
+                    VerticalAlignment="Bottom"
+                    Margin="20,15"
+                    Name="btHideCompactOverlay"
+                    Height="46"
+                    Click="CompactOverlay_Click" >
+                <Button.Content>
+                    <Image Source="/Assets/minimode.png"
+                           Margin="0,10,0,0"
+                           />
+                </Button.Content>
+            </Button>
+        </Grid>
+        <ProgressRing Style="{StaticResource webProgressring}"
+			          x:Name="prRing"
+		           	  Grid.Row="1"/>        
+        <Button FontFamily="Segoe MDl2 Assets"
+                Height="40"
+                Width="40"
+                Margin="20,15"
+                Padding="0"
+                Grid.Row="1"
+                Name="btGotoTop"
+                Click="btGotoTop_Click"
+                PointerEntered="BtGotoTop_PointerEntered"
+                PointerExited="BtGotoTop_PointerExited"
+                Visibility="{Binding ElementName=chbGoToTop, Path=IsChecked}"
+                HorizontalAlignment="Right"
+                Background="Transparent"
+                VerticalAlignment="Bottom" >
+            <Grid CornerRadius="40"
+                  Height="40"
+                  Background="#3b5998"
+                  Width="40">
+                <TextBlock Text="&#xE09C;"
+                            FontSize="15"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+            </Grid>
+            <Button.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Dark">
+                            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Light">
+                            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent"/>
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </Button.Resources>
+        </Button>
+        <SplitView x:Name="ContentSplitView" 
+                   IsPaneOpen="False" 
+                   Grid.Row="1"
+                   PaneBackground="Transparent"
+                   OpenPaneLength="300"
+                   PanePlacement="Right">
+            <SplitView.Pane>
+                <StackPanel Padding="15,10" Background="#33000000" CornerRadius="5" Name="spContentSplitView" Margin="0,10,20,10">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,5">
+                       <TextBlock Text="&#xE115;"
+                                  FontSize="21"
+                                  VerticalAlignment="Center"
+                                  FontFamily="segoe mdl2 assets" />
+                        <TextBlock Text="SETTINGS" 
+                                  VerticalAlignment="Center"
+                                   FontSize="18" 
+                                   Margin="10,0"
+                                   Style="{StaticResource tbCommonTitle}"/>
+                   </StackPanel>
+                          <ToggleSwitch Name="EnableDarkMode"
+                                        OffContent="Disabled"
+                                        OnContent="Enabled"
+                                        Header="Dark Mode"
+                                        Margin="0,15,0,0"
+                                        Toggled="EnableDarkMode_Toggled"/>
+                      <ComboBox Margin="0,15,0,0" 
+                                SelectionChanged="cbLiteItems_SelectionChanged"
+                                HorizontalAlignment="Stretch"
+                                Header="Default Mode"
+                                BorderBrush="Transparent"
+                                Name="cbLiteItems" >
+                        <ComboBoxItem Content="Desktop Mode " />
+                        <ComboBoxItem Content="Mobile Mode " />
+                    </ComboBox>                    
+                    <TextBlock Text="Pin Facebook to Start" 
+                                Margin="0 15 0 0"/>
+                    <Button Name="btPintoStart"
+                            Background="#33000000"
+                            Padding="10"
+                            Height="50"
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            FontSize="15"
+                            Click="btPintoStart_Click">
+                        <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Left" >
+                            <TextBlock Text="&#xE840;"
+                                        Margin="5,0,0,0"
+                                        Name="tbTransparentTileIcon"
+                                        VerticalAlignment="Center"
+								        FontFamily="Segoe MDL2 Assets" 
+								        FontSize="20" />
+                            <TextBlock Margin="10,0,0,0"
+                                        Name="tbTransparentTile"
+                                        Text="Pin to Start"
+                                        VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <TextBlock Text="Refresh Dark Mode UI" 
+                               Visibility="{Binding ElementName=btRefreshDarkMode, Path=Visibility}"
+                                Margin="0 15 0 0"/>
+                    <Button Name="btRefreshDarkMode"
+                            Background="#33000000"
+                            Padding="10"
+                            Height="50"
+                            Margin="0,10,0,0"
+                            x:DeferLoadStrategy="Lazy"
+                            Visibility="Collapsed"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            FontSize="15"
+                            Click="btRefreshDarkMode_Click">
+                        <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Left" >
+                            <TextBlock Text="&#xE72C;"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+								        FontFamily="Segoe MDL2 Assets" 
+								        FontSize="20" />
+                            <TextBlock Margin="10,0,0,0"
+                                        Text="Refresh"
+                                        VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <CheckBox Content="Show Go to Top Part Button"
+                              Checked="ChbGoToTop_Checked"
+                              Margin="0,10,0,0"
+                              Unchecked="ChbGoToTop_Checked"
+                              Name="chbGoToTop"/>
+                    <!--<TextBlock Text="Total Usage"
+                               FontWeight="Medium"
+                               Margin="0,10"/>
+                    <ProgressBar IsIndeterminate="False"
+                                 Height="15"
+                                 Value="0.5"
+                                 Name="pbTotalTime"
+                                 Maximum="60" />
+                    <TextBlock Text="Current Usage : 20 Minutes" 
+                               FontWeight="Medium"
+                               Name="tbCurrentUsage"
+                               Margin="0,10"/>
+                    <CheckBox Content="Set Usage Limit" 
+                              Name="chbUsageLimit"
+                              Margin="0,10,0,0"/>
+                    <ComboBox Margin="0,5"
+                              Width="120"
+                              IsEnabled="{Binding ElementName=chbUsageLimit, Path=IsChecked}">
+                        <ComboBoxItem Content="30 mins" />
+                        <ComboBoxItem Content="1 Hours" />
+                        <ComboBoxItem Content="2 Hours" />
+                    </ComboBox>
+                    <TextBlock Text="Remaining Time:"
+                               Name="tbRemainingTime"
+                               Margin="0,5" />-->
+                </StackPanel>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Grid Background="#99000000"
+                      Visibility="{Binding ElementName=ContentSplitView, Path=IsPaneOpen, Converter={StaticResource BooltoVisibility}}"
+                      Name="gdRectVisibility"
+                      x:DeferLoadStrategy="Lazy"/>
+            </SplitView.Content>
+        </SplitView>
+        <Models:ucErrorPage x:Name="_ucErrorPage" 
+                            x:DeferLoadStrategy="Lazy"
+                            Visibility="Collapsed"
+                            Grid.Row="1"/>
+        <Models:ucDownloadUI Grid.RowSpan="2"
+                            x:DeferLoadStrategy="Lazy"
+                            Visibility="Collapsed"
+                            Background="{Binding ElementName=spContentSplitView, Path=Background}"
+                            x:Name="_ucDownloadUI"/>
+        <Models:ucInkWeb x:Name="_ucInkWeb"
+                         Grid.RowSpan="2"
+                         Visibility="Collapsed"
+                         x:DeferLoadStrategy="Lazy" />
+        <Models:ucMessageDialog Grid.RowSpan="2"
+                                x:DeferLoadStrategy="Lazy"
+                                Visibility="Collapsed"
+                                x:Name="_ucMessageDialog"/>
+    </Grid>
+</Page>

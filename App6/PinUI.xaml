@@ -1,0 +1,89 @@
+﻿<Page
+    x:Class="App6.PinUI"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App6"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    Loaded="Page_Loaded"
+    KeyUp="Page_KeyUp">
+    <Page.Transitions>
+        <TransitionCollection>
+            <EdgeUIThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+    <Grid>
+        <Grid.Background>
+                <ImageBrush ImageSource="Assets/win10purple.jpg"
+                            x:Name="CoverImageBrush"
+                            Stretch="UniformToFill"/>
+            </Grid.Background>
+            <StackPanel VerticalAlignment="Center"
+                        HorizontalAlignment="Center">              
+                <controls:DropShadowPanel   BlurRadius="20.0"
+                                            ShadowOpacity="0.90"
+                                            OffsetX="0"
+                                            HorizontalAlignment="Center"
+                                            OffsetY="0" 
+                                            Color="Black">
+                <Grid>
+                    <Image Height="150"
+                         Margin="0,0,0,0"
+                         Source="Assets/account.png" 
+                         x:Name="imgProfile"
+                         VerticalAlignment="Center"
+                         Stretch="UniformToFill"
+                         HorizontalAlignment="Center"
+                         Width="150"/>
+                <Ellipse Height="120"
+                         x:Name="imgBlur"
+                         Margin="0,0,0,0"
+                         Stretch="UniformToFill" 
+                         x:DeferLoadStrategy="Lazy"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center"
+                         Width="120">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding ElementName=imgProfile, Path=Source}"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </Grid>
+                </controls:DropShadowPanel>
+               <TextBlock Name="tname"
+                           Margin="0,0,0,0"
+                           TextWrapping="Wrap"
+                           Style="{ThemeResource HeaderTextBlockStyle}"
+                           Visibility="Visible"
+                           Text="Welcome"
+                           HorizontalAlignment="Center"
+                           FontSize="25"/>
+            <StackPanel Orientation="Horizontal"
+                         Margin="0,15,0,0">
+            <PasswordBox Name="tb1"
+                         Width="250"
+                         BorderBrush="{StaticResource ScrollBarButtonForegroundThemeBrush}"
+                         Padding="10"
+                         PasswordChanged="tb1_PasswordChanged"
+                         Background="{StaticResource ScrollBarButtonForegroundThemeBrush}"
+                         PlaceholderText="Password"
+                         HorizontalAlignment="Center"/>
+                <Button Name="bt1"
+                        Content="&#xE111;"
+                        Margin="5,0,0,0"
+                        IsEnabled="False"
+                        Padding="15"
+                        FontFamily="Segoe Mdl2 Assets"
+                        Background="{StaticResource ScrollBarButtonForegroundThemeBrush}"
+                        HorizontalAlignment="Center" 
+                        Click="bt1_Click"/>
+            </StackPanel>
+            </StackPanel>
+            <Grid.Transitions>
+                <TransitionCollection>
+                    <EdgeUIThemeTransition/>
+                </TransitionCollection>
+            </Grid.Transitions>
+        </Grid>
+</Page>

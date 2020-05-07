@@ -1,0 +1,157 @@
+﻿<Page
+    x:Class="App6.WhatsApp"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App6"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Loaded="Page_Loaded"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d"
+    xmlns:Models="using:App6.Models">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <DrillInNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+    <Page.Resources>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Models:ucCommandBar  x:Name="_ucCommandBar"/>
+        <Grid Grid.Row="1" Name="gdWeb">
+            <Grid Background="#009688"
+                    Name="gdWebLoading">
+                <Image Source="/Assets/whatsapp.png" 
+                        Height="100"
+                        Margin="0,0,0,50"
+                        Width="100"/>
+            </Grid>
+            <WebView x:Name="web"
+                     LongRunningScriptDetected="web_LongRunningScriptDetected"
+				     LoadCompleted="web_LoadCompleted"
+                     NewWindowRequested="web_NewWindowRequested"
+                     ContentLoading="web_ContentLoading"
+                     NavigationStarting="web_NavigationStarting"
+                     PermissionRequested="web_PermissionRequested"
+                     DefaultBackgroundColor="#171717"
+                     NavigationCompleted="web_NavigationCompleted"
+                     UnviewableContentIdentified="web_UnviewableContentIdentified"
+                     UnsupportedUriSchemeIdentified="web_UnsupportedUriSchemeIdentified"
+                     UnsafeContentWarningDisplaying="web_UnsafeContentWarningDisplaying"
+                     Visibility="Visible"
+				     Margin="0,0,0,0" />
+        <Models:ucErrorPage x:Name="_ucErrorPage" 
+                            x:DeferLoadStrategy="Lazy"
+                            Visibility="Collapsed"
+                            Grid.Row="1"/>
+        </Grid>
+        <ProgressRing Style="{StaticResource webProgressring}"
+			          x:Name="prRing"
+		           	  Grid.Row="1"/>
+        <SplitView x:Name="ContentSplitView" 
+                   OpenPaneLength="300"
+                   PaneBackground="Transparent"
+                   Style="{StaticResource ContentSplitview}">
+            <SplitView.Pane>
+                <StackPanel Padding="15,10" Background="#33000000" 
+                            CornerRadius="5" 
+                            Name="spContentSplitView" 
+                            Margin="0,10,20,10">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,5">
+                       <TextBlock Text="&#xE115;"
+                                  FontSize="21"
+                                  VerticalAlignment="Center"
+                                  FontFamily="segoe mdl2 assets" />
+                        <TextBlock Text="SETTINGS" 
+                                  VerticalAlignment="Center"
+                                   FontSize="18" 
+                                   Margin="10,0"
+                                   Style="{StaticResource tbCommonTitle}"/>
+                   </StackPanel>
+                   <ToggleSwitch Name="EnableDarkMode"
+                                OffContent="Disabled"
+                                Visibility="Visible"
+                                Header="Dark Mode"
+                                 Margin="0,15,0,0"
+                                OnContent="Enabled"
+                                Toggled="EnableDarkMode_Toggled"/>
+                    <ToggleSwitch Name="EnableNotification"
+                                    OffContent="Disabled"
+                                    OnContent="Enabled"
+                                  Header="Message Notifications"
+                                  Margin="0,15,0,0"
+                                    Toggled="EnableNotification_Toggled"/>                    
+                    <TextBlock Text="Pin WhatsApp to Start" 
+                                Margin="0 15 0 0"/>
+                    <Button Name="btPintoStart"
+                            Background="#33000000"
+                            Padding="10"
+                            Height="50"
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            FontSize="15"
+                            Click="btPintoStart_Click">
+                        <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Left" >
+                            <TextBlock Text="&#xE840;"
+                                        Margin="5,0,0,0"
+                                        Name="tbTransparentTileIcon"
+                                        VerticalAlignment="Center"
+								        FontFamily="Segoe MDL2 Assets" 
+								        FontSize="20" />
+                            <TextBlock Margin="10,0,0,0"
+                                        Name="tbTransparentTile"
+                                        Text="Pin to Start"
+                                        VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    
+                    <TextBlock Text="Refresh Dark Mode UI" 
+                               Visibility="{Binding ElementName=btRefreshDarkMode, Path=Visibility}"
+                                Margin="0 15 0 0"/>
+                    <Button Name="btRefreshDarkMode"
+                            Background="#33000000"
+                            Padding="10"
+                            Height="50"
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Stretch"
+                            x:DeferLoadStrategy="Lazy"
+                            Visibility="Collapsed"
+                            VerticalAlignment="Center"
+                            FontSize="15"
+                            Click="btRefreshDarkMode_Click">
+                        <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Left" >
+                            <TextBlock Text="&#xE72C;"
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+								        FontFamily="Segoe MDL2 Assets" 
+								        FontSize="20" />
+                            <TextBlock Margin="10,0,0,0"
+                                        Text="Refresh"
+                                        VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Grid Background="#99000000" Visibility="{Binding ElementName=ContentSplitView, Path=IsPaneOpen, Converter={StaticResource BooltoVisibility}}"
+                      Name="gdRectVisibility"
+                      x:DeferLoadStrategy="Lazy"/>
+            </SplitView.Content>
+        </SplitView>
+        <Models:ucInkWeb x:Name="_ucInkWeb"
+                         Grid.RowSpan="2"
+                         Visibility="Collapsed"
+                         x:DeferLoadStrategy="Lazy" />
+    </Grid>
+</Page>

@@ -1,0 +1,258 @@
+﻿<Page
+    x:Class="App6.setpin"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App6"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="Page_Loaded"
+    KeyUp="Page_KeyUp">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <ContinuumNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+    <Page.Resources>
+        <Style TargetType="TextBox" x:Key="txbpin">
+            <Setter Property="Margin" Value="0,15,0,0"/>
+            <Setter Property="Background" Value="#1a1a1a"/>
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="BorderBrush" Value="#292929" />
+        </Style>
+        <Style TargetType="Button" x:Key="btPin">
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Background" Value="#171717"/>
+            <Setter Property="BorderThickness" Value="0" />
+            
+        </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Background" Value="#1a1a1a" />
+            <Setter Property="BorderBrush" Value="#292929" />
+        </Style>
+    </Page.Resources>
+    <Grid AllowDrop="True">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/win10purple.jpg" 
+                        x:Name="CoverImageBrush"
+                        Stretch="UniformToFill"/>
+        </Grid.Background>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="vsgMain" CurrentStateChanged="VsgMain_CurrentStateChanged">
+                <VisualState x:Name="vsDesktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="gdImgHeader.Margin" Value="50,30,0,0" />
+                        <Setter Target="spHeader.Margin" Value="200,0,0,10" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="vsMobile">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--<Setter Target="btChangeBackground.Width"
+                                Value="45" />
+                        <Setter Target="btChangeBackground.FontSize"
+                                Value="21" />-->
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid Visibility="Visible" Background="#51000000">
+            <Grid.Transitions>
+                <TransitionCollection>
+                    <EdgeUIThemeTransition/>
+                </TransitionCollection>
+            </Grid.Transitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            
+        <Grid VerticalAlignment="Top"
+              Height="110"
+              Grid.Row="0">
+            <StackPanel Margin="180,0,0,10"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal"
+                        Name="spHeader">
+                <TextBlock Text="&#xE75F;"
+                           FontSize="31"
+                           Margin="0,5,0,0"
+                           VerticalAlignment="Center"
+                           FontFamily="Segoe mdl2 assets" />
+                <TextBlock Text="Custom Password"
+                           FontSize="27"
+                           Margin="10,0,0,0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           FontWeight="Medium"/>
+            </StackPanel>
+            <Grid.Background>
+                <SolidColorBrush Color="#1e1e1e" Opacity="0.6" />
+            </Grid.Background>
+        </Grid>
+        <Grid CornerRadius="10"
+              Margin="20,30,0,0"
+              Name="gdImgHeader"
+              HorizontalAlignment="Left"
+              MaxWidth="130"
+              VerticalAlignment="Top">
+            <Image Source="{Binding ElementName=imgProfile, Path=Source}" 
+                    Grid.Row="0"
+                   Stretch="UniformToFill"
+                    Height="130"/>
+        </Grid>
+         
+        <StackPanel HorizontalAlignment="Center"
+                    Grid.Row="1"
+                    Name="spPassCont"
+                    Margin="0,0,0,10"
+                    BorderThickness="1"
+                    BorderBrush="#1e1e1e"
+                    Width="400"
+                    Padding="20"
+                    VerticalAlignment="Top" >
+            <StackPanel.Background>
+                <SolidColorBrush Color="#171717" Opacity="0.9"/>
+            </StackPanel.Background>
+                <Grid Name="gdImage"
+                      AllowDrop="True"
+                      Width="150"
+                      CornerRadius="100"
+                      Height="150"
+                      DragOver="gdImage_DragOver"
+                      Drop="gdImage_Drop">
+                    <Image Height="150"
+                           Margin="0,0,0,0"
+                           Source="/Assets/account.png"
+                           x:Name="imgProfile"
+                           VerticalAlignment="Center"
+                           Stretch="UniformToFill" 
+                           HorizontalAlignment="Center"
+                           Width="150" />
+               
+                    <Button Name="btSelectimage"
+                            Content="&#xE898;"
+                            Height="150"
+                            Width="150"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="0,0,0,0"
+                            FontSize="60"
+                            Background="#77000000"
+                            FontFamily="Segoe MDL2 Assets"
+                            Click="btSelectimage_Click"/>
+                </Grid>
+                <StackPanel Name="spSetPassword">
+                    <TextBox Name="tbname1"
+                             Header="Name"
+                                Style="{StaticResource txbpin}"
+                                PlaceholderText="Your Name (Optional)"/>
+                    <PasswordBox Name="tbset1"
+                                 Margin="0,15,0,0"
+                                 Header="Password"
+                                 PasswordChanged="tbset2_PasswordChanged"
+                                 PlaceholderText="Password"/>
+                    <PasswordBox Name="tbset2"
+                                 Header="Confirm Password"
+                                 Margin="0,15,0,0"
+                                 PasswordChanged="tbset2_PasswordChanged"
+                                 PlaceholderText="Re-enter Password"/>
+                </StackPanel>
+                <StackPanel Name="spResetPassword" Visibility="Collapsed">
+                    <PasswordBox Name="tbreset1"
+                                 Margin="0,15,0,0"
+                                 Header="Current Password"
+                                 PlaceholderText="Current Password"/>
+                    <PasswordBox Name="tbreset2" 
+                                 Margin="0,15,0,0"
+                                 Header="New Password"
+                                 PlaceholderText="New Password" />
+                    <PasswordBox Name="tbreset3"
+                                 PasswordChanged="tbreset3_PasswordChanged"
+                                 Margin="0,15,0,0"
+                                 Header="Confirm New Password"
+                                 PlaceholderText="Re-enter New Password" />
+                </StackPanel>
+                <Grid Margin="0,20,0,0">
+                    <Button Name="btset"
+                            Style="{StaticResource btPin}"
+                            HorizontalAlignment="Left"
+                            IsEnabled="False"
+                            Click="btset_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE001;"
+                                       VerticalAlignment="Center"
+                                       FontFamily="Segoe mdl2 assets"/>
+                            <TextBlock Text="Confirm"
+                                       Margin="8,0,0,0"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Click="btcancel_Click"
+                            Style="{StaticResource btPin}"
+                            HorizontalAlignment="Right">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE10A;"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe mdl2 assets"/>
+                            <TextBlock Text="Cancel"
+                                        Margin="8,0,0,0"
+                                        VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                <Button    Margin="0,20,0,0"
+                           Background="#171717"
+                           Padding="10"
+                           Visibility="Collapsed"
+                           Name="btremovepin"
+                           Click="btremovepin_Click"
+                           BorderThickness="0"
+                           HorizontalAlignment="Center"
+                           FontSize="15">
+                    <Grid VerticalAlignment="Center">
+                        <TextBlock Text="&#xE10A;" 
+                                   FontSize="18"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"/>
+                        <TextBlock Text="Click here to remove Password"
+                                   VerticalAlignment="Center"
+                                   Margin="25,0,0,0"/>
+                    </Grid>
+                </Button>
+                <StackPanel.Transitions>
+                    <TransitionCollection>
+                        <EdgeUIThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.Transitions>
+            </StackPanel>
+        </Grid>
+        <Button Content="&#xE898;"
+                Background="#171717"
+                FontFamily="Segoe MDL2 Assets"
+                Width="80"
+                Height="{Binding ElementName=btChangeBackground, Path=Width}"
+                FontSize="31"
+                Margin="20"
+                Name="btChangeBackground"
+                Click="btChangeBackground_Click"
+                ToolTipService.ToolTip="Change Background"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"/>
+    </Grid>
+    
+</Page>

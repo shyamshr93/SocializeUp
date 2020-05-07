@@ -1,0 +1,691 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App6"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Class="App6.BlankPage4"
+    NavigationCacheMode="Enabled"
+    Loaded="Page_Loaded"
+    mc:Ignorable="d"
+    xmlns:Models="using:App6.Models"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:SCLibrary="using:MainSCLibrary">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <ContinuumNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+    <Page.Resources>
+        <Style TargetType="TextBlock" x:Key="SettingsHeader">
+            <Setter Property="Margin" Value="0,10,0,5" />
+        </Style> 
+        <Style TargetType="Button" x:Key="BorderBrushButton">
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Transitions">
+                <Setter.Value>
+                    <TransitionCollection>
+                        <EdgeUIThemeTransition />
+                    </TransitionCollection>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    
+    <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}" Name="MainGrid">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="vsgMain" CurrentStateChanged="vsgMain_CurrentStateChanged">
+                <VisualState x:Name="vsDesktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="gdColumn0.Width" Value="250" />
+                        <Setter Target="gdColumn1.Width" Value="*" />
+                        <Setter Target="gdHeaderOverlay.Visibility" Value="Collapsed" />
+                        <Setter Target="gdGeneralSettings.Padding" Value="0,90,0,0" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="vsMobile">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>       
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" x:Name="gdColumn0" />
+            <ColumnDefinition Width="*" x:Name="gdColumn1"/>
+        </Grid.ColumnDefinitions>
+         <Grid Background="Transparent"
+                Visibility="Visible"
+               Canvas.ZIndex="99"
+                HorizontalAlignment="Stretch"
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Name="gdTitleBar"
+                VerticalAlignment="Top"
+                Height="32">
+        </Grid>
+        
+         <Grid Grid.Column="0"
+               Background="#30000000"
+               HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid   Visibility="Visible"
+                    HorizontalAlignment="Stretch"
+                    Grid.Row="0"
+                    Background="Transparent"
+                    Padding="0,32,0,0">
+                <TextBlock Text="Settings" 
+                            Margin="10"
+                            FontSize="15"
+                            FontWeight="Medium"
+                            VerticalAlignment="Center"/>
+            </Grid>
+            <ListView Name="lvSettingsCategory"
+                      SelectionMode="Single"
+                      Grid.Row="1"
+                      Margin="0,0,0,0"
+                      ItemsSource="{x:Bind obSettingsList}"
+                      SelectionChanged="lvSettingsCategory_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:SettingsCategoryClass">
+                        <Grid PointerEntered="stackOffSet_PointerEntered"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              Padding="15"
+                              Background="Transparent"
+                              PointerExited="stackOffSet_PointerExited">
+                            <TextBlock Text="{x:Bind icon}"
+                                       Margin="3,0,0,0"
+                                       FontSize="16"
+                                       VerticalAlignment="Center"
+                                       FontFamily="Segoe Mdl2 Assets"/>
+                            <TextBlock Text="{x:Bind title}"
+                                       VerticalAlignment="Center"
+                                       Margin="35,0,0,0"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Resources>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.Resources>
+            </ListView>
+        </Grid>
+        <controls:DropShadowPanel BlurRadius="20.0"
+                                    ShadowOpacity="0.70"
+                                    OffsetX="0"
+                                    HorizontalContentAlignment="Stretch"
+                                    Grid.Column="1"
+                                    OffsetY="0" 
+                                    HorizontalAlignment="Stretch"
+                                    Color="Black">
+            <Grid Grid.Column="1"
+                  Padding="0"
+                  Background="{Binding ElementName=MainGrid,Path=Background}"
+                  HorizontalAlignment="Stretch">
+            
+                <Grid Grid.Row="1"
+                      Padding="15,0">            
+                
+                    <Grid Name="gdGeneralSettings" Grid.Row="1">
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <StackPanel Margin="0,0,0,15" Orientation="Vertical">
+                                <Grid Height="90" Name="gdHeaderOverlay"/>
+                                    <TextBlock Text="Cache and Temporary Files" 
+                                                Style="{StaticResource SettingsHeader}" />
+                                    <Grid HorizontalAlignment="Left" >
+                                        <Button Name="btClearCache"
+                                                        Width="240"
+                                                        PointerEntered="BtOffset_PointerEntered"
+                                                        PointerExited="BtOffset__PointerExited"
+                                                        HorizontalAlignment="Left"
+                                                        HorizontalContentAlignment="Left"
+                                                        Style="{StaticResource BorderBrushButton}"
+                                                        Background="{Binding ElementName=gdRectfillColor, Path=Background}"
+                                                        Click="btClearCache_Click">
+                                            <StackPanel Orientation="Horizontal" Margin="20,0,0,0" HorizontalAlignment="Left">
+                                                <TextBlock Text="&#xE107;"
+                                                            FontSize="18"
+                                                            HorizontalAlignment="Left"
+                                                            FontFamily="Segoe MDL2 Assets"
+                                                            VerticalAlignment="Center" />
+                                                <TextBlock Text=" Clear"
+                                                            Margin="10,0,0,0"
+                                                            FontSize="18"
+                                                            VerticalAlignment="Center"
+                                                            />
+                                            </StackPanel>
+                                        </Button>
+                                        <ProgressRing IsActive="True"
+                                                      Height="40"
+                                                      Width="40"
+                                                      HorizontalAlignment="Center"
+                                                      Foreground="White"
+                                                      Name="prClearCache"/>
+                                    </Grid>
+                                    <Grid Margin="0,0,0,5" Visibility="{Binding ElementName=tgsFluentDesign,Path=Visibility}">
+                                        <ToggleSwitch Name="tgsFluentDesign"
+                                                          OffContent="Disabled"
+                                                          OnContent="Enabled"
+                                                          Toggled="tgsFluentDesign_Toggled"
+                                                          Margin="0,10,0,0"
+                                                          Visibility="Visible"
+                                                          Header="Use Acrylic Background" />
+                                        <TextBlock Text="(Requires Restart)" 
+                                                       FontSize="13"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="#c2c2c2"
+                                                       Margin="120,30,0,0"/>
+                                    </Grid> 
+                        
+                                    <ToggleSwitch Name="HideCompactMenu"
+                                                            Margin="0,10,0,0"
+                                                          Visibility="{Binding ElementName=chbbthardwareBack, Path=Visibility, Converter={StaticResource InvertVisibility}}"
+                                                            Header="Nav Pane Visibility (Left Menu bar)"
+                                                            Toggled="HideCompactMenu_Toggled"
+                                                            OffContent="Visible"
+                                                            OnContent="Hidden" />
+                                    <CheckBox Content="Phone Back button to go back in web" 
+                                                Name="chbbthardwareBack" 
+                                                Margin="0,10,0,5"
+                                                Visibility="Collapsed"
+                                                Unchecked="chbbthardwareBack_Checked"
+                                                Checked="chbbthardwareBack_Checked" />
+                                    <TextBlock Text="Security" 
+                                               Visibility="{Binding ElementName=spPinSelection, Path=Visibility}"
+                                               Style="{StaticResource SettingsHeader}"/>
+                                    <StackPanel Name="spPinSelection"
+                                                Margin="0,0,0,0"
+                                                Orientation="Horizontal"
+                                                Width="300" 
+                                                Padding="0,20,0,0"
+                                                HorizontalAlignment="Left"
+                                                Background="{Binding ElementName=gdRectfillColor, Path=Background}">
+                                        <StackPanel Padding="10,0,10,10" Width="150">
+
+                                            <TextBlock Text="&#xE75F;"
+                                                        FontSize="41"
+                                                        Width="50"
+                                                        Height="50"
+                                                        Margin="0,10,0,0"
+                                                        Padding="5"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Center"
+                                                        FontFamily="Segoe MDl2 Assets" />
+                                            <RadioButton GroupName="Pin"
+                                                        Width="100"
+                                                        HorizontalAlignment="Left"
+                                                        Checked="defaultPin_Checked"
+                                                        Content="Custom Password" 
+                                                        Margin="0,10,0,0"
+                                                        Name="defaultPin" />
+                                        </StackPanel>
+                                        <StackPanel BorderBrush="{StaticResource ScrollBarButtonForegroundThemeBrush}"
+                                                    BorderThickness="0.8,0,0,0"
+                                                    Padding="10,0,10,10">
+                                            <TextBlock Text="&#xEB68;"
+                                                        FontSize="50"
+                                                        Width="50"
+                                                        Height="50"
+                                                        Margin="0,10,0,0"
+                                                        Padding="3"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Center"
+                                                        FontFamily="Segoe MDl2 Assets" />
+                                            <RadioButton GroupName="Pin"
+                                                             Checked="defaultPin_Checked" 
+                                                             Content="Windows Hello"
+                                                             Margin="0,10,0,0"
+                                                             Name="WindowsHelloPin" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal"
+                                                Margin="0,5,0,0"
+                                                HorizontalAlignment="Left"
+                                                Name="btsetpin">
+                                        <Border BorderThickness="0"
+                                                Margin="0,0,0,0"
+                                                 Background="{Binding ElementName=gdRectfillColor, Path=Background}"
+                                                BorderBrush="{Binding ElementName=gdRectfillColor, Path=Background}">
+                                            <TextBlock Text="&#xE75F;"
+                                                                FontSize="31"
+                                                                Width="50"
+                                                                Height="50"
+                                                                Padding="10"
+                                                                FontFamily="Segoe MDl2 Assets" />
+                                        </Border>
+                                        <Button  Content="Set or Change Password"
+                                                 Margin="5,0,0,0"
+                                                 Width="245"
+                                                 HorizontalAlignment="Left"
+                                                 Style="{StaticResource BorderBrushButton}"
+                                                 Background="{Binding ElementName=gdRectfillColor, Path=Background}"
+                                                 Click="btsetpin_Click"
+                                                    />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical" Margin="0,10,0,0" Name="btpinIAP">
+                                        <TextBlock Text="Unlock Security Features" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                            <Border Background="{Binding ElementName=gdRectfillColor, Path=Background}"
+                                                    BorderBrush="{Binding ElementName=gdRectfillColor, Path=Background}"
+                                                    BorderThickness="0">
+                                                <TextBlock Text="&#xE75F;"
+                                                            FontSize="31"
+                                                            Width="50"
+                                                            Height="50"
+                                                            Padding="10"
+                                                            FontFamily="Segoe MDl2 Assets" />
+                                            </Border>
+                                            <Button Content="Custom Password"
+                                                    Style="{StaticResource BorderBrushButton}"
+                                                    Background="{Binding ElementName=gdRectfillColor, Path=Background}"
+                                                    Margin="10,0,0,0"
+                                                    Width="150"
+                                                    Click="btpinIAP_Click" />
+                                            <Button Content="&#xE897;"
+                                                    FontFamily="Segoe MDL2 Assets"
+                                                    Style="{StaticResource BorderBrushButton}"
+                                                     Background="{Binding ElementName=gdRectfillColor, Path=Background}"
+                                                    Margin="10,0,0,0"
+                                                    Name="bthelp"
+                                                    Click="bthelp_Click"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Models:ucSettings x:Name="_ucSettings" Tag="{Binding ElementName=gdRectfillColor, Path=Background}"/>
+
+                                </StackPanel>
+                        </ScrollViewer>
+                    </Grid>   
+                
+                    <Grid Name="gdAboutSettings"
+                          x:DeferLoadStrategy="Lazy"
+                          Padding="{Binding ElementName=gdGeneralSettings, Path=Padding}"
+                          Visibility="Collapsed">                    
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                        <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Left"
+                                    Name="spMainAbout">
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                </Style>
+                            </StackPanel.Resources>
+                                <Grid Height="90" Visibility="{Binding ElementName=gdHeaderOverlay, Path=Visibility}"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <controls:DropShadowPanel   BlurRadius="10.0"
+                                                                ShadowOpacity="0.80"
+                                                                OffsetX="2"
+                                                                OffsetY="2" 
+                                                                Color="Black">     
+                                        <Image Source="/Assets/Square44x44Logo.scale-400.png"
+                                                Height="110"
+                                                Width="110"
+                                                HorizontalAlignment="Left"/>
+                                    </controls:DropShadowPanel>
+                                    <StackPanel Margin="10,0,0,0">
+                                        <TextBlock  Text="Socialize Up" 
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="25"
+                                                    FontWeight="SemiBold"/>
+                                        <HyperlinkButton Content="By Define Studio"
+                                                        FontSize="12"
+                                                        Padding="0"
+                                                        NavigateUri="http://www.twitter.com/define_studio"
+                                                        Foreground="#c2c2c2"
+                                                        Margin="0,0,0,0" />
+                                        
+                                        <HyperlinkButton Name="tbVersionNumber"
+                                                        FontSize="13"
+                                                        Padding="0"
+                                                        Content="Version"
+                                                        Click="tbVersionNumber_Click"
+                                                        Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
+                                                        Margin="0,2,0,0" >    
+                                        <HyperlinkButton.ContentTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" />
+                                            </DataTemplate>
+                                        </HyperlinkButton.ContentTemplate>
+                                        </HyperlinkButton>
+                                        <HyperlinkButton Content="Designed and Developed by Shyam" 
+                                                         Margin="0,2,0,0"
+                                                         Padding="0"
+                                                         Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
+                                                         NavigateUri="http://www.twitter.com/shyamshr93"
+                                                         FontSize="12">                                    
+                                            <HyperlinkButton.ContentTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" />
+                                                </DataTemplate>
+                                            </HyperlinkButton.ContentTemplate>
+                                        </HyperlinkButton>
+                                        <TextBlock FontSize="15"
+                                                   FontWeight="Medium"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,3,0,0" >
+                                            Made with
+                                            <Span FontFamily="Segoe MDl2 Assets"
+                                                  Foreground="Crimson"
+                                                  FontSize="15">&#xE00B;</Span> in India
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                                <TextBlock HorizontalAlignment="Left"
+                                            TextWrapping="Wrap"
+                                            Margin="0,10,0,0">
+                                    Let us know what you want to see next in Socialize Up. We are listening!
+                                    <LineBreak/>Leave a 5 stars for Socialize Up. It means a lot to us.
+                                </TextBlock>
+                            <TextBlock Text="FEEDBACK" 
+                                       Padding="0"
+                                       Margin="0,15,0,0"
+                                       Style="{StaticResource tbCommonTitle}" />
+                            <Button x:Name="btMail"
+						                    Margin="0,5,0,0" 
+                                            FontSize="21"
+                                            Height="50"
+                                            Width="200"
+                                            PointerEntered="BtOffset_PointerEntered"
+                                            PointerExited="BtOffset__PointerExited"
+                                            Style="{StaticResource BorderBrushButton}"
+                                            Background="{Binding ElementName=gdRectfillColor, Path=Background}"
+                                            HorizontalAlignment="Left"
+                                            Tag="mail"
+						                    Click="btAboutSupport_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE715;"
+								                HorizontalAlignment="Center"
+								                VerticalAlignment="Center"
+								                FontFamily="Segoe MDL2 Assets"
+								                FontSize="21" />
+                                    <TextBlock Text="Mail us"
+								                Margin="10,0,0,0"
+                                                FontSize="20"
+								                VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button   x:Name="btSupportTwitter"
+						                      Margin="0,5,0,0"
+                                              HorizontalAlignment="Left"
+                                              Width="200"
+                                              Tag="twitter"
+                                              Style="{StaticResource BorderBrushButton}"
+                                              Background="{Binding ElementName=gdRectfillColor, Path=Background}"
+                                                PointerEntered="BtOffset_PointerEntered"
+                                                PointerExited="BtOffset__PointerExited"
+						                      Click="btAboutSupport_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Assets/twitter.png"
+                                           Height="37"
+                                           VerticalAlignment="Center"
+                                           Margin="0,5,0,0"
+                                           Width="30" />
+                                    <TextBlock Text="Twitter"
+								                Margin="10,0,0,0"
+                                                FontSize="20"
+								                VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <TextBlock Text="RATING" 
+                                       Padding="0"
+                                       Margin="0,15,0,0"
+                                       Style="{StaticResource tbCommonTitle}" />
+                            <Button   x:Name="btrateus"
+                                      HorizontalAlignment="Left"
+						            Margin="0,5,0,0"
+                                      Width="200"
+                                    Style="{StaticResource BorderBrushButton}"
+                                      Height="50"
+                                      Tag="rating"
+                                        PointerEntered="BtOffset_PointerEntered"
+                                        PointerExited="BtOffset__PointerExited"
+                                      Background="{Binding ElementName=gdRectfillColor, Path=Background}"
+						                Click="btAboutSupport_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE209;"
+								                HorizontalAlignment="Center"
+								                VerticalAlignment="Center"
+								                FontFamily="Segoe MDL2 Assets"
+								                FontSize="21" />
+                                    <TextBlock Text="Rate and Review"
+								                Margin="10,0,0,0"
+                                                FontSize="20"
+								                VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <TextBlock Text="PRIVACY POLICY AND WEBSITE" 
+                                       Padding="0"
+                                       Margin="0,15,0,0"
+                                       Style="{StaticResource tbCommonTitle}" />
+                            <Button    x:Name="btprivacy"
+                                      Width="200"
+                                      Height="50"
+                                      Margin="0,5,0,0"
+                                      Tag="privacy"
+                                    PointerEntered="BtOffset_PointerEntered"
+                                    PointerExited="BtOffset__PointerExited"
+                                    Style="{StaticResource BorderBrushButton}"
+                                      Background="{Binding ElementName=gdRectfillColor, Path=Background}"
+						                Click="btAboutSupport_Click ">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE730;"
+								                HorizontalAlignment="Center"
+								                VerticalAlignment="Center"
+								                FontFamily="Segoe MDL2 Assets"
+								                FontSize="21" />
+                                    <TextBlock Text="Privacy Policy"
+								                Margin="10,0,0,0"
+                                                FontSize="20"
+								                VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button    x:Name="btSite"
+                                      Width="200"
+                                      Height="50"
+                                      Margin="0,5,0,0"
+                                       Tag="site"
+                                        PointerEntered="BtOffset_PointerEntered"
+                                        PointerExited="BtOffset__PointerExited"
+                                    Style="{StaticResource BorderBrushButton}"
+                                      Background="{Binding ElementName=gdRectfillColor, Path=Background}"
+						                Click="btAboutSupport_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE909;"
+								                HorizontalAlignment="Center"
+								                VerticalAlignment="Center"
+								                FontFamily="Segoe MDL2 Assets"
+								                FontSize="21" />
+                                    <TextBlock Text="Define Studio"
+								                Margin="10,0,0,0"
+                                                FontSize="20"
+								                VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Some Icons used from : " 
+                                           Margin="0,6,5,0"/>
+                                <HyperlinkButton Content="icons8"
+                                                    NavigateUri="https://icons8.com/" />
+                            </StackPanel>
+                        </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                
+                    <Grid Name="gdAddOnsSettings"
+                          Padding="0,90,0,0"
+                          Visibility="Collapsed">
+                        <Models:ucInAppPurchaseHub x:Name="_ucInAppPurchase"/>
+                    </Grid>
+                
+                    <Grid Name="gdChangelogSettings"
+                          x:DeferLoadStrategy="Lazy"
+                          Padding="0,90,0,0"
+                          Visibility="Collapsed">
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <StackPanel Orientation="Vertical" 
+                                        Margin="0,10,0,0">
+                                <TextBlock  Text="What's New!"
+					                        FontSize="18"
+					                        FontWeight="Medium"/>
+                                <TextBlock  Name="tbChangelog"
+                                            TextWrapping="Wrap"
+                                            IsTextSelectionEnabled="True" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                
+                    <Grid Name="gdOurAppsSettings"
+                          Padding="0,90,0,0"
+                          x:DeferLoadStrategy="Lazy"
+                          Visibility="Collapsed">
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <Grid Margin="0,0,0,0" > 
+                                <GridView Name="lvDSApps"                               
+                                          IsItemClickEnabled="True"
+                                          ItemClick="lvDSApps_ItemClick"
+                                          SelectionMode="None"
+                                          Margin="0,10,0,0"
+                                          Visibility="Visible"
+                                          Padding="0,0,0,0"
+                                          HorizontalAlignment="Left">
+                                    <GridView.Resources>
+                                        <Style TargetType="GridViewItem">
+                                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Padding" Value="0,0" />
+                                            <Setter Property="Margin" Value="15" />
+                                            <Setter Property="MinWidth" Value="300" />
+                                            <Setter Property="MinHeight" Value="310" />
+                                        </Style>
+                                        <Style x:Key="tbDescription" TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="WhiteSmoke" />
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                            <Setter Property="FontSize" Value="15" />
+                                            <Setter Property="Margin" Value="0,10,0,0" />
+                                        </Style>
+                                        <Style x:Key="tbRating" TargetType="TextBlock">
+                                            <Setter Property="Margin" Value="0,0,0,0" />
+                                            <Setter Property="FontSize" Value="15" />
+                                            <Setter Property="Text" Value="&#xE00A;&#xE00A;&#xE00A;&#xE00A;&#xF0CA;" />
+                                            <Setter Property="FontFamily" Value="Segoe MDl2 Assets" />
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                        </Style>
+                                    </GridView.Resources>
+                                    <GridView.ItemTemplate>
+                                        <DataTemplate x:DataType="SCLibrary:DefineStudioApps">
+                                            <StackPanel Orientation="Vertical"
+                                                        PointerEntered="SpDSApps_PointerEntered"
+                                                        HorizontalAlignment="Stretch"
+                                                        Background="{x:Bind scbBackground}"
+                                                        PointerExited="SpDSApps_PointerExited"
+                                                        Name="spDSApps"
+                                                        VerticalAlignment="Stretch"
+                                                        Padding="15,10">
+                                                <StackPanel.Resources>                                                  
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Height" Value="80" />
+                                                        <Setter Property="Width" Value="80" />
+                                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                                    </Style>
+                                                </StackPanel.Resources>
+                                                <controls:DropShadowPanel BlurRadius="20.0"
+                                                                          ShadowOpacity="0.50"
+                                                                          OffsetX="0"
+                                                                          OffsetY="2" 
+                                                                          Margin="0,10,0,0"
+                                                                          HorizontalAlignment="Center"
+                                                                          Color="Black">
+                                                    <Image Source="{x:Bind ImageUri}"/>
+                                                </controls:DropShadowPanel>
+                                                    <TextBlock Text="{x:Bind AppName}"
+                                                               HorizontalAlignment="Center"
+                                                               FontSize="18"
+                                                               Foreground="White"
+                                                               Margin="0,10,0,5"
+                                                                FontWeight="Medium"/>
+                                                    <TextBlock  Foreground="White"
+                                                                        Style="{StaticResource tbRating}" />
+                                                    <TextBlock Text="{x:Bind Description}"
+                                                                Style="{StaticResource tbDescription}"/>
+                                                <Button x:Name="btDownloadApp"
+                                                        Click="BtDownloadApp_Click"
+                                                        HorizontalAlignment="Center"
+                                                        Height="40"
+                                                        Width="150"
+                                                        Foreground="White"
+                                                        Background="{x:Bind scbButton}"
+                                                        Margin="0,40,0,10">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="&#xE118;" FontFamily="Segoe mdl2 assets" VerticalAlignment="Center"/>
+                                                        <TextBlock Text="Download" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridView.ItemTemplate>
+                                </GridView>
+                            </Grid>
+                        </ScrollViewer>
+                    </Grid>          
+                </Grid>
+                      
+                <Grid Grid.Row="0"
+                      Margin="0,0,0,0"
+                      Name="gdHeader"
+                      Grid.RowSpan="2"
+                      VerticalAlignment="Top"
+                      Height="90">
+                    <TextBlock Text="General" 
+                               FontSize="35"
+                               VerticalAlignment="Center"
+                               Margin="15,15,0,0"
+                               FontWeight="Bold"
+                               Name="tbSettingsHeader" />
+                </Grid>
+            </Grid>     
+        </controls:DropShadowPanel>
+        <Grid Name="gdRectfillColor" Visibility="Collapsed" Background="#55000000" />
+        <Grid Grid.RowSpan="2"
+              Grid.ColumnSpan="2"
+              Visibility="Collapsed"
+              Name="gdPurchasingAddon"
+              x:DeferLoadStrategy="Lazy"
+              Background="#55000000">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <ProgressRing IsActive="True"
+                              Height="50"
+                              Width="50"
+                              Foreground="White"
+                              Margin="0,10"
+                              FontSize="25" />
+                <TextBlock Text="Purchasing..."
+                           Foreground="White"
+                           FontSize="21"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,938 @@
+﻿<Page
+    x:Class="App6.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App6"
+    xmlns:Universal="using:Microsoft.Advertising.WinRT.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d"
+    xmlns:Models="using:App6.Models"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition/>
+        </TransitionCollection>
+    </Page.Transitions>
+    <Page.Resources>
+        <Style TargetType="Image" x:Key="lvLogo">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Margin" Value="2,0,15,0" />
+        </Style>
+
+        <SolidColorBrush x:Name="CustomThemeForegroundColor">White</SolidColorBrush>
+        <SolidColorBrush x:Name="CustomThemeBackgroundColor">Transparent</SolidColorBrush> 
+        <Style TargetType="ListViewItem" x:Key="customListView">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+            <Setter Property="TabNavigation" Value="Local"/>
+            <Setter Property="IsHoldingEnabled" Value="True"/>
+            <Setter Property="Padding" Value="7,0,0,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="55" />
+            <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Grid x:Name="ContentBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="BorderBackground"
+                                                                        Storyboard.TargetProperty="Opacity"
+                                                                        Duration="0"
+                                                                        To="1"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomThemeBackgroundColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="BorderBackground"
+                                                                        Storyboard.TargetProperty="Opacity"
+                                                                        Duration="0"
+                                                                        To="1"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomThemeBackgroundColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
+                                                                        Storyboard.TargetProperty="Opacity"
+                                                                        Duration="0:0:0"
+                                                                        To="1"/>
+                                            <DoubleAnimation Storyboard.TargetName="BorderBackground"
+                                                                            Storyboard.TargetProperty="Opacity"
+                                                                            Duration="0"
+                                                                            To="1"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomThemeBackgroundColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectBorder" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomThemeForegroundColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomThemeForegroundColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOverSelected">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
+                                                                            Storyboard.TargetProperty="Opacity"
+                                                                            Duration="0:0:0"
+                                                                            To="1"/>
+                                            <DoubleAnimation Storyboard.TargetName="BorderBackground"
+                                                                            Storyboard.TargetProperty="Opacity"
+                                                                            Duration="0"
+                                                                            To="1"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomThemeBackgroundColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectBorder" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomThemeForegroundColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomThemeForegroundColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PressedSelected">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
+                                                                        Storyboard.TargetProperty="Opacity"
+                                                                        Duration="0:0:0"
+                                                                        To="1"/>
+                                            <DoubleAnimation Storyboard.TargetName="BorderBackground"
+                                                                        Storyboard.TargetProperty="Opacity"
+                                                                        Duration="0"
+                                                                        To="1"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomThemeBackgroundColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectBorder" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomThemeForegroundColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CustomThemeForegroundColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DisabledStates">
+                                    <VisualState x:Name="Enabled"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                                                                        Storyboard.TargetProperty="Opacity"
+                                                                        Duration="0"
+                                                                        To="{ThemeResource ListViewItemDisabledThemeOpacity}"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="MultiSelectStates">
+                                    <VisualState x:Name="MultiSelectDisabled">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheckBoxTransform"
+                                                    Storyboard.TargetProperty="X">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.333" Value="-32" KeySpline="0.1,0.9,0.2,1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectClipTransform"
+                                                    Storyboard.TargetProperty="X">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.333" Value="32" KeySpline="0.1,0.9,0.2,1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenterTranslateTransform"
+                                                    Storyboard.TargetProperty="X">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="32"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.333" Value="0" KeySpline="0.1,0.9,0.2,1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.333" Value="Collapsed" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MultiSelectEnabled">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheckBoxTransform"
+                                                    Storyboard.TargetProperty="X">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="-32"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.333" Value="0" KeySpline="0.1,0.9,0.2,1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectClipTransform"
+                                                    Storyboard.TargetProperty="X">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="32"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.333" Value="0" KeySpline="0.1,0.9,0.2,1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenterTranslateTransform"
+                                                    Storyboard.TargetProperty="X">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="-32"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.333" Value="0" KeySpline="0.1,0.9,0.2,1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheck" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenterGrid" Storyboard.TargetProperty="Margin">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="32,0,0,0" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DataVirtualizationStates">
+                                    <VisualState x:Name="DataAvailable"/>
+                                    <VisualState x:Name="DataPlaceholder">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextBlock" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderRect" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ReorderHintStates">
+                                    <VisualState x:Name="NoReorderHint"/>
+                                    <VisualState x:Name="BottomReorderHint">
+                                        <Storyboard>
+                                            <DragOverThemeAnimation TargetName="ContentBorder" ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" Direction="Bottom" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="TopReorderHint">
+                                        <Storyboard>
+                                            <DragOverThemeAnimation TargetName="ContentBorder" ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" Direction="Top" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="RightReorderHint">
+                                        <Storyboard>
+                                            <DragOverThemeAnimation TargetName="ContentBorder" ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" Direction="Right" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="LeftReorderHint">
+                                        <Storyboard>
+                                            <DragOverThemeAnimation TargetName="ContentBorder" ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" Direction="Left" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition To="NoReorderHint" GeneratedDuration="0:0:0.2"/>
+                                    </VisualStateGroup.Transitions>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DragStates">
+                                    <VisualState x:Name="NotDragging" />
+                                    <VisualState x:Name="Dragging">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                                        Storyboard.TargetProperty="Opacity"
+                                        Duration="0"
+                                        To="{ThemeResource ListViewItemDragThemeOpacity}" />
+                                            <DragItemThemeAnimation TargetName="ContentBorder" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="DraggingTarget">
+                                        <Storyboard>
+                                            <DropTargetItemThemeAnimation TargetName="ContentBorder" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MultipleDraggingPrimary">
+                                        <Storyboard>
+                                            <!-- These two Opacity animations are required - the FadeInThemeAnimations
+                                                on the same elements animate an internal Opacity. -->
+                                            <DoubleAnimation Storyboard.TargetName="MultiArrangeOverlayBackground"
+                                        Storyboard.TargetProperty="Opacity"
+                                        Duration="0"
+                                        To="1" />
+                                            <DoubleAnimation Storyboard.TargetName="MultiArrangeOverlayText"
+                                        Storyboard.TargetProperty="Opacity"
+                                        Duration="0"
+                                        To="1" />
+                                            <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                                        Storyboard.TargetProperty="Opacity"
+                                        Duration="0"
+                                        To="{ThemeResource ListViewItemDragThemeOpacity}" />
+                                            <FadeInThemeAnimation TargetName="MultiArrangeOverlayBackground" />
+                                            <FadeInThemeAnimation TargetName="MultiArrangeOverlayText" />
+                                            <DragItemThemeAnimation TargetName="ContentBorder" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MultipleDraggingSecondary">
+                                        <Storyboard>
+                                            <FadeOutThemeAnimation TargetName="ContentBorder" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="DraggedPlaceholder">
+                                        <Storyboard>
+                                            <FadeOutThemeAnimation TargetName="ContentBorder" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition To="NotDragging" GeneratedDuration="0:0:0.2"/>
+                                    </VisualStateGroup.Transitions>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Rectangle x:Name="BorderBackground"
+                                                IsHitTestVisible="False"
+                                                Fill="{ThemeResource SystemControlHighlightListAccentLowBrush}"
+                                                Opacity="0"
+                                                Control.IsTemplateFocusTarget="True"/>
+                            <Grid x:Name="ContentPresenterGrid"
+                                        Background="Transparent"
+                                        Margin="0,0,0,0">
+                                <Grid.RenderTransform>
+                                    <TranslateTransform x:Name="ContentPresenterTranslateTransform"/>
+                                </Grid.RenderTransform>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Width="5"
+                                                           Height="30"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Left"
+                                                           Name="rectBorder"/>
+                                <ContentPresenter x:Name="ContentPresenter"
+                                                            Grid.Column="1"
+                                                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                            Content="{TemplateBinding Content}"
+                                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                            Margin="5,0,0,0"/>
+                            </Grid>
+                            <!-- The 'Xg' text simulates the amount of space one line of text will occupy.
+                                In the DataPlaceholder state, the Content is not loaded yet so we
+                                approximate the size of the item using placeholder text. -->
+                            <TextBlock x:Name="PlaceholderTextBlock"
+                                                Opacity="0"
+                                                Text="Xg"
+                                                Foreground="{x:Null}"
+                                                Margin="{TemplateBinding Padding}"
+                                                IsHitTestVisible="False"
+                                                AutomationProperties.AccessibilityView="Raw"/>
+                            <Rectangle x:Name="PlaceholderRect"
+                                                Visibility="Collapsed"
+                                                Fill="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"/>
+                            <Rectangle x:Name="MultiArrangeOverlayBackground"
+                                                IsHitTestVisible="False"
+                                                Opacity="0"
+                                                Fill="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+                                                Grid.ColumnSpan="2"/>
+                            <Border x:Name="MultiSelectSquare"
+                                            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                                            BorderThickness="2"
+                                            Width="20"
+                                            Height="20"
+                                            Margin="12,0,0,0"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            Visibility="Collapsed" >
+                                <Border.Clip>
+                                    <RectangleGeometry Rect="0,0,20,20">
+                                        <RectangleGeometry.Transform>
+                                            <TranslateTransform x:Name="MultiSelectClipTransform"/>
+                                        </RectangleGeometry.Transform>
+                                    </RectangleGeometry>
+                                </Border.Clip>
+                                <Border.RenderTransform>
+                                    <TranslateTransform x:Name="MultiSelectCheckBoxTransform"/>
+                                </Border.RenderTransform>
+                                <FontIcon x:Name="MultiSelectCheck"
+                                                FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                Glyph="&#xE73E;"
+                                                FontSize="16"
+                                                Foreground="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                                                Visibility="Collapsed"
+                                                Opacity="0"/>
+                            </Border>
+                            <TextBlock x:Name="MultiArrangeOverlayText"
+                                Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DragItemsCount}"
+                                Foreground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+                                FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+                                FontSize="26.667"
+                                IsHitTestVisible="False"
+                                Opacity="0"
+                                TextWrapping="Wrap"
+                                TextTrimming="WordEllipsis"
+                                Margin="18,9,0,0"
+                                AutomationProperties.AccessibilityView="Raw"
+                                Grid.ColumnSpan="2"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{Binding ElementName=mySplitsview, Path=PaneBackground}" >
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="vsgMain" CurrentStateChanged="vsgMain_CurrentStateChanged">
+                <VisualState x:Name="vsDesktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="btMix.Visibility"
+                                Value="Visible" />
+                        <Setter Target="webName.Visibility"
+                                Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="vsMobile">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="mySplitsview.DisplayMode"
+                                Value="Overlay" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid Grid.Row="1">
+            <SplitView x:Name="mySplitsview" 
+                        IsPaneOpen="False"
+                        OpenPaneLength="250"
+                       PaneClosed="mySplitsview_PaneClosed"
+                           CompactPaneLength="50" 
+                            PaneBackground="#138BDE"
+                           DisplayMode="CompactOverlay">
+                <SplitView.Pane>
+                    <RelativePanel Name="spSplitview">
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <StackPanel Orientation="Vertical">
+                                <Grid Height="32" Visibility="{Binding ElementName=gdTitleBar, Path=Visibility}">
+                                    <TextBlock Text="Socialize Up"
+                                               Visibility="{Binding ElementName=mySplitsview, Path=IsPaneOpen, Converter={StaticResource BooltoVisibility}}"
+                                               FontWeight="Medium" 
+                                                Margin="10,0,0,0"
+                                                FontSize="12"
+                                                VerticalAlignment="Center"/>
+                                </Grid>
+                            <Grid Width="250">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="bthamburger"
+							            Height="48"
+                                        Foreground="White"
+									    Margin="0,0,0,0"
+									    VerticalAlignment="Center" 
+									    HorizontalAlignment="Stretch"
+                                        BorderThickness="0"
+                                        Content="&#xE700;"
+                                        FontSize="22"
+                                        Grid.Column="0"
+                                        Padding="17,0,0,0"
+									    FontFamily="Segoe MDL2 Assets" 
+                                        HorizontalContentAlignment="Left"
+                                        Background="Transparent"
+                                        BorderBrush ="Transparent"
+                                        Click="btMenu_Click"/>
+                                <Button Content="&#xE840;"
+                                        Width="48"
+                                        Visibility="Visible"
+                                        Grid.Column="1"
+                                        Name="btPinSplitView"
+                                        Click="pinSplitView_Click"
+                                        ToolTipService.ToolTip="Pin this Pane"
+                                        Background="Transparent"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        Height="48" />
+                                </Grid>
+                                <ListView  Name="mylistbox"
+                                          RelativePanel.Below="bthamburger"
+                                          SelectionMode="Single"
+                                          Background="Transparent"
+                                          Padding="0,0,0,0"
+                                          SelectionChanged="mylistbox_SelectionChanged">
+                                    <ListView.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontWeight" Value="Medium" />
+                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                        </Style>
+                                        <Style TargetType="Ellipse">
+                                            <Setter Property="Width" Value="5" />
+                                            <Setter Property="Height" Value="5" />
+                                            <Setter Property="VerticalAlignment" Value="Bottom" />
+                                            <Setter Property="Fill" Value="White" />
+                                            <Setter Property="Margin" Value="18,0,0,0" />
+                                        </Style>
+                                    </ListView.Resources>
+                                    <ListViewItem x:Name="btTwitter" 
+                                                  PointerEntered="OffsetAnimation_PointerEntered"
+                                                  PointerExited="OffsetAnimation_PointerExited"
+                                                  Visibility="Visible"
+                                                  Style="{StaticResource customListView}"
+                                                  Height="55">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="Assets/twitter.png"
+                                                   Margin="2,0,15,0"
+                                                   Style="{StaticResource lvLogo}"/>
+                                            <TextBlock Text="Twitter"
+                                                       Grid.Column="1"/>  
+                                            <Ellipse Name="EllipseTwitterActive"
+                                                     Margin="15,0,0,0"
+                                                     x:DeferLoadStrategy="Lazy"/>
+                                        </Grid>
+                                    </ListViewItem>
+                                    <ListViewItem  x:Name="btInstagram"
+                                                  Style="{StaticResource customListView}"
+                                                  PointerEntered="OffsetAnimation_PointerEntered"
+                                                  PointerExited="OffsetAnimation_PointerExited"
+                                                   Height="55">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="Assets/Instagram.png"
+                                                   Margin="2,0,15,0"
+                                                   Style="{StaticResource lvLogo}"/>
+                                            <TextBlock Text="Instagram"
+                                                       Grid.Column="1"/>
+                                            <Ellipse Name="EllipseInstaActive"
+                                                     x:DeferLoadStrategy="Lazy"/>
+                                        </Grid>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="btTelegram"
+                                                  Style="{StaticResource customListView}"
+                                                  PointerEntered="OffsetAnimation_PointerEntered"
+                                                  PointerExited="OffsetAnimation_PointerExited"
+                                                  Height="55">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="Assets/tele.png"
+                                                   Style="{StaticResource lvLogo}"/>
+                                            <StackPanel Orientation="Horizontal"
+                                                        Grid.Column="1">
+                                                <TextBlock Text="Telegram" x:Name="tbTelegramIAPx" />
+                                                <TextBlock Text="&#xE719;"
+                                                            VerticalAlignment="Center" 
+                                                            HorizontalAlignment="Center"
+                                                            FontSize="12"
+                                                            Margin="10,2,0,0"
+                                                            x:Name="tbTelegramIAP"
+                                                            FontFamily="Segoe MDL2 Assets"/>
+                                            </StackPanel>
+                                            <Ellipse Name="EllipseTeleActive"
+                                                     x:DeferLoadStrategy="Lazy"/>
+                                        </Grid>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="btWhatsApp"
+                                                  Style="{StaticResource customListView}"
+                                                  PointerEntered="OffsetAnimation_PointerEntered"
+                                                  PointerExited="OffsetAnimation_PointerExited"
+                                                  Visibility="Collapsed"
+                                                  Height="55">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="Assets/whatsapp.png"
+                                                   Style="{StaticResource lvLogo}"/>
+                                            <TextBlock Text="WhatsApp"  
+                                                       Grid.Column="1"/>
+                                            <Ellipse Name="EllipseWhatsAppActive"
+                                                     x:DeferLoadStrategy="Lazy"/>
+                                        </Grid>
+                                    </ListViewItem>
+
+                                    <ListViewItem  x:Name="btReddit"
+                                                  Style="{StaticResource customListView}"
+                                                  PointerEntered="OffsetAnimation_PointerEntered"
+                                                  PointerExited="OffsetAnimation_PointerExited"
+                                                   Height="55">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="Assets/reddit.png"
+                                                   Style="{StaticResource lvLogo}"/>
+                                            <TextBlock Text="Reddit"  
+                                                       Grid.Column="1"
+                                                       />
+                                            <Ellipse Name="EllipseRedditActive"
+                                                     x:DeferLoadStrategy="Lazy"/>
+                                        </Grid>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="btFaceBook"
+                                                  Style="{StaticResource customListView}"
+                                                  PointerEntered="OffsetAnimation_PointerEntered"
+                                                  PointerExited="OffsetAnimation_PointerExited"
+                                                  Height="55">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                                <Image Source="Assets/fb.png"
+                                                       Style="{StaticResource lvLogo}"/>
+                                                <TextBlock Text="Facebook"
+                                                            Grid.Column="1"
+                                                            HorizontalAlignment="Left"/>    
+                                            <Ellipse Name="EllipseFBActive"
+                                                     x:DeferLoadStrategy="Lazy"
+                                                     Margin="18,0,0,0"
+                                                     />
+                                        </Grid>
+                                    </ListViewItem>
+                                    <ListViewItem  x:Name="btGoogle"
+                                                  Style="{StaticResource customListView}"
+                                                  PointerEntered="OffsetAnimation_PointerEntered"
+                                                  PointerExited="OffsetAnimation_PointerExited"
+                                                   Background="Transparent"
+                                                   Visibility="Collapsed"
+                                                   Height="55">
+                                        <!--<Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="Assets/g+.png"
+                                                   Margin="0,0,11,0"
+                                                   Style="{StaticResource lvLogo}"/>
+                                            <TextBlock Text="Google+"
+                                                       Grid.Column="1"/>
+                                            <Ellipse Name="EllipseGActive"
+                                                     x:DeferLoadStrategy="Lazy"/>
+                                        </Grid>-->
+                                    </ListViewItem>
+                                    <ListViewItem Name="btMix"
+                                                  Style="{StaticResource customListView}"
+                                                  PointerEntered="OffsetAnimation_PointerEntered"
+                                                  PointerExited="OffsetAnimation_PointerExited"
+                                                  Visibility="Visible"
+                                                  Height="55">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="&#xE746;"
+                                                       VerticalAlignment="Center" 
+                                                       HorizontalAlignment="Center"
+                                                       FontSize="24"
+                                                       FontFamily="Segoe MDL2 Assets"
+                                                       Margin="7,0,30,0"/>
+                                            <TextBlock Foreground="White" 
+										                Text="Split View" 
+                                                       Grid.Column="1"
+										                FontSize="15"
+                                                        Margin="-12,0,0,0"
+										                VerticalAlignment="Center"/>
+                                            <Ellipse Name="EllipseSplitViewActive"
+                                                     Margin="10,0,0,-4"
+                                                     x:DeferLoadStrategy="Lazy"/>
+                                        </Grid>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="btPinIAP"
+                                                  Height="55"
+                                                  Style="{StaticResource customListView}"
+                                                  x:DeferLoadStrategy="Lazy"
+                                                  Tapped="btPinIAP_Tapped">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xEB68;"
+                                                       VerticalAlignment="Center" 
+                                                       HorizontalAlignment="Center"
+                                                       FontSize="25"
+                                                       FontFamily="Segoe MDL2 Assets"
+                                                       Margin="6,0,28,0"/>
+                                            <TextBlock Text="Unlock Custom Password"
+                                                       Margin="-12,0,0,0"
+                                                       />
+                                        </StackPanel>
+                                    </ListViewItem>
+                                </ListView>
+                            </StackPanel>
+                        </ScrollViewer>
+                        <ListView RelativePanel.AlignBottomWithPanel="True"
+                                  Name="lvSecondary"
+                                  SelectionMode="Single"
+                                  SelectionChanged="lvSecondary_SelectionChanged">
+                            <ListViewItem Name="btGetMoreApps"
+                                        Style="{StaticResource customListView}"
+                                        PointerEntered="OffsetAnimation_PointerEntered"
+                                        PointerExited="OffsetAnimation_PointerExited"
+                                        Width="250"
+                                        Height="55"
+                                        Background="Transparent">
+                                <StackPanel Orientation="Horizontal" >
+                                    <TextBlock  Text="&#xE71D;"
+                                                Padding="6,0,15,0"
+                                                FontFamily="Segoe mdl2 assets"
+                                                FontSize="25"/>
+                                    <TextBlock Text="More Apps"
+                                                VerticalAlignment="Center"
+                                                Margin="10,0,0,0"
+                                                FontWeight="Medium"/>
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem PointerEntered="OffsetAnimation_PointerEntered"
+                                        PointerExited="OffsetAnimation_PointerExited"
+                                        Width="250"
+                                        Height="55"
+                                        Style="{StaticResource customListView}"
+                                        Background="Transparent">
+                                <StackPanel Orientation="Horizontal" >
+                                    <TextBlock  Text="&#xE115;"
+                                            Padding="6,0,15,0"
+                                            FontFamily="Segoe mdl2 assets"
+                                            FontSize="25"/>
+                                    <TextBlock Text="Settings + About"
+                                                VerticalAlignment="Center"
+                                                Margin="10,0,0,0"
+                                                FontWeight="Medium"/>
+                                </StackPanel>
+                            </ListViewItem>
+                        </ListView>
+                    </RelativePanel>
+                </SplitView.Pane>
+                <SplitView.Content>
+                    <controls:DropShadowPanel BlurRadius="20.0"
+                                              ShadowOpacity="1"
+                                              OffsetX="0"
+                                              HorizontalContentAlignment="Stretch"
+                                              Grid.Column="1"
+                                              Margin="15,0,0,0"
+                                              OffsetY="0" 
+                                              Name="dspLeftPane"
+                                              Canvas.Left="9999"
+                                              HorizontalAlignment="Stretch"
+                                              Color="Black">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>                    
+                            <Grid Background="{Binding ElementName=rpWeb, Path=Background}"
+                                      Visibility="Collapsed"
+                                      HorizontalAlignment="Stretch"
+                                      Grid.Row="0"
+                                      Height="32"
+                                      Name="gdTitleBar"
+                                      >
+                                <TextBlock Text="Socialize Up"
+                                           Visibility="{Binding ElementName=mySplitsview, Path=IsPaneOpen, Converter={StaticResource InvertBooltoVisibility}}"
+                                           FontWeight="Medium" 
+                                            Margin="10,0,0,0"
+                                            FontSize="12"
+                                            VerticalAlignment="Center"/>
+                            </Grid>
+                            <Button HorizontalAlignment="Left"
+			                        VerticalAlignment="Top"
+			                        Grid.Row="1"
+			                        Click="btMenu_Click"
+			                        Height="48"
+                                    BorderThickness="0"
+                                    Margin="0"
+                                    Name="btSecondaryMenu"
+			                        Content="&#xE700;"
+                                    Background="{Binding ElementName=rpWeb, Path=Background}"
+			                        FontFamily="Segoe MDL2 Assets"
+			                        FontSize="20"  
+			                        Width="50"/>
+                        <RelativePanel Height="48"
+			                           x:Name="rpWeb"
+                                       Grid.Row="1"
+                                       VerticalAlignment="Top"
+			                           Background="#138BDE"
+			                           Margin="50,0,0,0">
+                            <RelativePanel.Transitions>
+                                <TransitionCollection>
+                                    <EdgeUIThemeTransition/>
+                                </TransitionCollection>
+                            </RelativePanel.Transitions>
+                            <Image Source="Assets/twitter.png"
+				                   x:Name="webIcon"
+				                   Height="38"
+                                   Margin="5,0,0,0"
+                                   Tapped="webIcon_Tapped"
+                                   RelativePanel.AlignVerticalCenterWithPanel="True"
+				                   RelativePanel.AlignLeftWithPanel="True" 
+				                   Width="40"/>
+                            <StackPanel Height="48" Orientation="Horizontal" RelativePanel.RightOf="webIcon">
+                                <TextBlock Text="TWITTER"
+					                               x:Name="webName"
+					                               FontSize="15" 
+					                               FontWeight="Medium"
+                                                   x:DeferLoadStrategy="Lazy"
+                                                   Visibility="Collapsed"
+                                                   VerticalAlignment="Center"
+					                               HorizontalAlignment="Left" 
+					                               Margin="5,0,0,0" />
+                                <StackPanel Name="rpDesktopAds"
+                                                    Orientation="Horizontal"
+                                                    Background="#33000000"
+                                                    Margin="30,0,0,0"
+                                                      x:DeferLoadStrategy="Lazy">
+                                    <Grid Background="#1da1f2"
+                                              Height="48">
+                                    <TextBlock Text="Advertisement"
+                                                       FontSize="9"
+                                                       Margin="5,2"
+                                                       HorizontalAlignment="Right"
+                                                       VerticalAlignment="Bottom" />
+                                        <Button Height="50"
+                                                        Name="btAdTwitter"
+                                                        Click="BtAdTwitter_Click"
+                                                        Background="Transparent"
+                                                        HorizontalContentAlignment="Left"
+                                                        HorizontalAlignment="Stretch">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="/Assets/twitter.png" 
+                                                              VerticalAlignment="Center"
+                                                              Margin="10,0,0,0"
+                                                              Height="30"/>
+                                                <TextBlock Text="Follow us on Twitter" 
+                                                                    FontWeight="Medium"
+                                                                   Margin="5,0,0,0"
+                                                                    VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
+                                    <Universal:AdControl x:Name="AdMediator_EF8EDB"
+                                                                        Height="250"
+                                                                        Margin="0,0,0,0"
+                                                                        Visibility="Visible"
+                                                                        ApplicationId="56d21227-1010-466f-b628-b4c088d11a42"    
+                                                                        AdUnitId="11580720"
+                                                                        VerticalAlignment="Top" 
+                                                                        Width="300"/>
+                                        
+                                    </Grid>
+                                    <Button Name="btRemoveDesktopAds"
+                                            Click="btRemoveDesktopAds_Click"
+                                            Height="48"
+                                            Background="Transparent"
+                                            Width="50"
+                                            ToolTipService.ToolTip="Remove Advertisement"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Content="&#xE894;"
+                                            RelativePanel.AlignRightWithPanel="True"
+                                            RelativePanel.RightOf="AdMediator_EF8EDB"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </RelativePanel>
+                            <RelativePanel Name="rpMobileAds"
+                                            Height="50"
+                                           Grid.Row="1"
+                                           x:DeferLoadStrategy="Lazy"
+                                           VerticalAlignment="Bottom"
+                                           HorizontalAlignment="Stretch"
+                                            Background="{Binding ElementName=rpWeb, Path=Background}">
+                                <TextBlock Text="Advertisment"
+                                           RelativePanel.AlignHorizontalCenterWithPanel="True"
+                                           RelativePanel.AlignVerticalCenterWithPanel="True"
+                                           FontSize="15"
+                                           FontWeight="Medium" />
+                                <Universal:AdControl x:Name="AdMediator_805E49"
+                                                             Height="250" 
+                                                              ApplicationId="b83bf3e8-6647-4f14-a692-6a9cf4dc00b9"    
+                                                             AdUnitId="11580721"
+                                                             Width="300"/>
+                                <Button Name="btMobileAd"
+                                        Click="btRemoveDesktopAds_Click"
+                                        Height="50"
+                                        Width="50"
+                                        ToolTipService.ToolTip="Remove Advertisement"
+                                        Background="{Binding ElementName=rpWeb, Path=Background}"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        Content="&#xE894;"
+                                        RelativePanel.AlignRightWithPanel="True" />
+                            </RelativePanel>
+                        <Frame x:Name="myFrame"
+                               Grid.Row="1"
+                               Margin="0,0,0,50" />
+                        <Rectangle Name="rectTest"
+                                   Grid.RowSpan="2"
+                                   Fill="#99000000"
+                                   x:DeferLoadStrategy="Lazy"
+                                   Visibility="Collapsed"
+                                   />
+                    </Grid>
+                    </controls:DropShadowPanel>
+                </SplitView.Content>
+            </SplitView>
+        </Grid>
+        <controls:InAppNotification  x:Name="ucFadeControl"
+                                    x:DeferLoadStrategy="Lazy"
+                                    Grid.RowSpan="6"
+                                     Margin="0,0,0,50"
+                                    Visibility="Visible"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Padding="15"
+                                     BorderBrush="Transparent"
+                                     BorderThickness="0"
+                                    Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Models:ucChangelog x:Name="_ucChangelog"
+                            x:DeferLoadStrategy="Lazy"
+                            Visibility="Collapsed"
+                            Grid.RowSpan="2"/>
+        <Grid Grid.ColumnSpan="2"
+              Grid.RowSpan="2"
+              Visibility="Collapsed"
+              x:DeferLoadStrategy="Lazy"
+              Name="gdPurchasingAddon"
+              Background="#55000000">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <ProgressRing IsActive="True"
+                              Height="50"
+                              Width="50"
+                              Foreground="White"
+                              Margin="0,10"
+                              FontSize="25" />
+                <TextBlock Text="Purchasing..."
+                           Foreground="White"
+                           FontSize="21"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
+
+
