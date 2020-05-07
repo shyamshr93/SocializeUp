@@ -1,0 +1,264 @@
+﻿<UserControl
+    x:Class="App6.Models.ucDownloadUI"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App6.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Name="_thisDownloadUI"
+    Background="#171717"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="vsgMain">
+                <VisualState x:Name="vsMobile">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="spMainDownloadUI.Width" Value="Auto" />
+                        <Setter Target="spMainDownloadUI.HorizontalAlignment" Value="Stretch" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="vsDesktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="spMainDownloadUI.Width" Value="500" />
+                        <Setter Target="spMainDownloadUI.HorizontalAlignment" Value="Center" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid Background="{StaticResource ScrollBarButtonForegroundThemeBrush}"
+              Name="gdBlur"
+              Visibility="{Binding ElementName=spMainDownloadUI, Path=Visibility}"/>
+        <StackPanel Background="#171717" 
+                    VerticalAlignment="Center"
+                    Name="spMainDownloadUI"
+                    BorderThickness="1"
+                    BorderBrush="#333"
+                    Width="500"
+                    Visibility="Visible"
+                    HorizontalAlignment="Center"
+                    Padding="0">
+            <Grid Height="70"
+                  Background="#1e1e1e"
+                  Padding="5"
+                  >
+                <StackPanel HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                    <TextBlock Text="&#xE118;"
+                               VerticalAlignment="Center"
+                               FontSize="31"
+                               HorizontalAlignment="Center"
+                               FontFamily="Segoe MDL2 Assets" />
+                    <TextBlock FontSize="21"
+                               FontWeight="Medium"
+                               Margin="10,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Text="Download File" />
+                </StackPanel>
+            </Grid>
+            <Grid Margin="0,0" 
+                  Padding="10,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Width="90">                    
+                    <TextBlock  HorizontalAlignment="Left" 
+                                Height="20"
+                                Margin="0,15,0,0"
+                                Text="File Name :"/>
+                    <TextBlock Text="Folder :" 
+                               Height="20"
+                               Visibility="{Binding ElementName=txbFileName, Path=Visibility}"
+                               Margin="0,20,0,0"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="Link :"
+                               Visibility="{Binding ElementName=txbFileName, Path=Visibility}"
+                               Margin="0,25,0,0"/>
+                    
+                    <TextBlock  Margin="0,10,0,0"
+                                Text="Progress :"
+                                Visibility="{Binding ElementName=tbFileName, Path=Visibility}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">                    
+                    <TextBox Name="txbFileName"
+                            TextChanged="txbFileName_TextChanged"
+                            PlaceholderText="File Name"
+                            Visibility="Visible"
+                            BorderBrush="#292929"
+                            x:FieldModifier="public"
+                            Margin="0,10,0,0"/>
+                    <TextBlock Margin="0,15,0,0"
+                               HorizontalAlignment="Left"
+                               Name="tbFileName"
+                               Text="Placeholder File Name"
+                               MaxLines="1"
+                               Visibility="Collapsed"/>
+                    <StackPanel Margin="0,0,0,0" 
+                                Visibility="{Binding ElementName=txbFileName, Path=Visibility}">
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox PlaceholderText="Choose Location"
+                                     Margin="0,0,0,0"
+                                     BorderBrush="#292929"
+                                     Name="txbLocation"
+                                     Loaded="txbLocation_Loaded"
+                                     IsReadOnly="True"
+                                     VerticalAlignment="Top"/>
+                            <Button Content="&#xE8F4;"
+                                    Grid.Column="1" 
+                                    Background="#212121"
+                                    Name="btLocation"
+                                    Click="btLocation_Click"
+                                    Height="32" 
+                                    ToolTipService.ToolTip="Folder Locations "
+                                    FontFamily="Segoe MDl2 Assets"
+                                    HorizontalAlignment="Right"
+                                    Margin="5,0,0,0"/>
+                        </Grid>
+                        <TextBox Margin="0,10,0,0"
+                                BorderBrush="#292929"
+                                PlaceholderText="Link"
+                                Name="txbDownloadLink"
+                                x:FieldModifier="public"
+                                VerticalAlignment="Top"/>
+                    </StackPanel>
+                    <RelativePanel Height="50"
+                                    Visibility="{Binding ElementName=tbFileName, Path=Visibility}">
+                        <ProgressBar Name="pbProgress"
+                                        Width="210"
+                                        Value="20"
+                                        Height="30"
+                                        RelativePanel.AlignVerticalCenterWithPanel="True"
+                                        IsIndeterminate="True" />
+                        <Button Content="&#xE103;"
+					            FontFamily="Segoe MDL2 Assets" 
+                                Name="btPause"
+                                Height="40"
+                                Width="40"
+                                ToolTipService.ToolTip="Pause Download"
+                                Background="#22000000"
+                                Click="BtPauseDownload_Click"
+                                RelativePanel.AlignRightWithPanel="True"/>
+                    </RelativePanel>
+                    <TextBlock Name="tbSize"
+                               Style="{StaticResource tbCommonTitle}"
+                               RelativePanel.RightOf="pbProgress"
+                               Margin="0,0,0,0"
+                               Visibility="{Binding ElementName=tbFileName, Path=Visibility}"
+                               Text="Size"
+                               />
+                </StackPanel>                
+            </Grid>
+            <RelativePanel Padding="0,0" 
+                           Margin="0,15,0,0"
+                           Height="60"
+                           VerticalAlignment="Bottom">
+            <Button Content="Download" 
+                    Click="btStartDownload"
+                    x:FieldModifier="public"
+                    Height="50"
+                    Margin="10,0,0,10"
+                    Width="120"
+                    Background="{Binding ElementName=btPause, Path=Background}"
+                    Visibility="{Binding ElementName=txbFileName, Path=Visibility}"
+                    Name="btDownload"/>
+            <Button Content="Hide" 
+                    Visibility="{Binding ElementName=tbFileName, Path=Visibility}"
+                    Name="btHide"
+                    Click="btHide_Click"
+                    Margin="10,0,0,10"
+                    Height="50"
+                    Width="120"
+                    Background="{Binding ElementName=btPause, Path=Background}"
+                    />
+            <Button Content="Cancel" 
+                    Name="btCancel"
+                    Height="50"
+                    Width="120"
+                    Margin="0,0,10,10"
+                    Background="{Binding ElementName=btPause, Path=Background}"
+                    Click="btDownloadUICancel"
+                    RelativePanel.AlignRightWithPanel="True"/>
+            </RelativePanel>
+            <ToggleSwitch Name="tsDownload"
+                          IsOn="False"
+                          Visibility="Collapsed"
+                          x:FieldModifier="public" />
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <PaneThemeTransition Edge="Top" />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
+        </StackPanel>
+        
+      <Grid Name="gdCompactDownloadUI"
+            Height="55"
+            Margin="20,0"
+            BorderThickness="1,1,1,0"
+            BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+            Visibility="{Binding ElementName=spMainDownloadUI, Path=Visibility, Converter={StaticResource InvertVisibility}}"
+            x:DeferLoadStrategy="Lazy"
+            Background="{Binding ElementName=spMainDownloadUI, Path=Background}"
+            VerticalAlignment="Bottom">
+            <StackPanel VerticalAlignment="Center"
+                        Orientation="Horizontal">
+            <controls:RadialProgressBar Thickness="5"
+                                        Height="40"
+                                        Width="40"
+                                        Margin="10,0"
+                                        Value="{Binding ElementName=pbProgress, Path=Value}"
+                                        Maximum="100"
+                                        Minimum="0" />
+                <StackPanel Margin="5,0,0,0">
+                <TextBlock Text="{Binding ElementName=tbFileName, Path=Text}"
+                           FontWeight="Medium"
+                           VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding ElementName=tbSize, Path=Text}"
+                           Margin="0,0,0,0"
+                           FontSize="12"
+                           VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Margin="10,0"
+                        HorizontalAlignment="Right">
+                <Button Content="&#xE103;" 
+                        Background="{Binding ElementName=btPause, Path=Background}"
+                        Click="BtPauseDownload_Click"
+                        Margin="10,0" 
+                        Height="50"
+                        FontFamily="Segoe MDl2 Assets"
+                        Width="50"
+                        ToolTipService.ToolTip="Pause Download"
+                        IsEnabled="{Binding ElementName=btPause , Path=IsEnabled}"
+                        RelativePanel.AlignRightWithPanel="True"/>
+                <Button Content="&#xE106;" 
+                        Height="50"
+                        FontFamily="Segoe MDl2 Assets"
+                        Width="50"
+                        ToolTipService.ToolTip="Cancel Download"
+                        Background="{Binding ElementName=btPause, Path=Background}"
+                        Click="btDownloadUICancel"
+                        RelativePanel.AlignRightWithPanel="True"/>
+            </StackPanel>
+            <Grid.Transitions>
+                <TransitionCollection>
+                    <EdgeUIThemeTransition Edge="Top" />
+                </TransitionCollection>
+            </Grid.Transitions>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,76 @@
+﻿<UserControl
+    x:Class="App6.Models.ucErrorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App6.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">   
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState>
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="spMainBox.Orientation" Value="Vertical" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState>
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="600" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="spMainBox.Orientation" Value="Horizontal" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Grid Background="#1e1e1e"
+                  Padding="0,10"
+                  Name="gdError">        
+                <StackPanel Orientation="Horizontal"
+                            Name="spMainBox"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="&#xE007;"
+                               VerticalAlignment="Top"
+                                FontFamily="Segoe MDl2 Assets"
+                               Margin="0,0,15,5"
+                                HorizontalAlignment="Center"
+                                FontSize="60"/>
+                    <StackPanel Margin="0,0,0,0">
+                        <TextBlock Text="You're not connected" 
+                                    FontSize="24"
+                                   FontWeight="SemiLight"
+                                    Margin="0,0,0,0"/>
+                        <TextBlock  FontSize="15"
+                                    Margin="0,10,0,0">
+                            And the app just isn't the same without you.<LineBreak/>
+                            <LineBreak/>Let’s get you back online<LineBreak/>
+                            <LineBreak/>• Check that your network cables are plugged in.<LineBreak/>
+                            <LineBreak/>• Make sure you’re not in airplane mode.<LineBreak/>
+                            <LineBreak/>• See if your wireless switch is turned on.<LineBreak/>
+                            <LineBreak/>• Restart your router.
+                        </TextBlock>
+                    <TextBlock Text="Error Code -"
+                                Name="tbErrorCode" 
+                                x:FieldModifier="public"
+                                Margin="0,15,0,0"
+                                HorizontalAlignment="Left"/>
+                        <Button Content="Refresh"
+                                BorderThickness="0"
+                                Padding="10"
+                                Margin="0,10,0,0"
+                                Width="100"
+                                Background="#292929"
+                                x:FieldModifier="public"
+                                Name="btErrorRefresh"
+                                FontSize="15"
+                                HorizontalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+    </ScrollViewer>
+</UserControl>

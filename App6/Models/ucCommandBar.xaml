@@ -1,0 +1,86 @@
+﻿<UserControl
+    x:Class="App6.Models.ucCommandBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App6.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="UserControl_Loaded"
+    Unloaded="UserControl_Unloaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Storyboard x:Name="iconRotation" x:FieldModifier="public" AutoReverse="False" RepeatBehavior="Forever">
+                <DoubleAnimation Duration="0:0:1" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="refreshIcon" />
+            </Storyboard>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <CommandBar Name="cbAppbar"
+                HorizontalAlignment="Right"
+                x:FieldModifier="public" >
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="btforward.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <AppBarButton x:Name="btback"
+					  Icon="Back"
+                      x:FieldModifier="public"
+                      Label="Go back"  />
+        <AppBarButton Name="btforward"
+                          Label="Go Forward"
+                      IsEnabled="False"
+                          Icon="Forward"
+                          x:FieldModifier="public"
+                          Visibility="Collapsed"/>
+        <AppBarButton Label="Refresh"
+                    Name="btrefresh" 
+                    x:FieldModifier="public"
+                    RenderTransformOrigin="0.5,0.5">
+            <AppBarButton.Icon>
+                <SymbolIcon x:Name="refreshIcon"  Symbol="Refresh" RenderTransformOrigin="0.5,0.5" >
+                    <SymbolIcon.RenderTransform>
+                        <CompositeTransform/>
+                    </SymbolIcon.RenderTransform>
+                </SymbolIcon>
+            </AppBarButton.Icon>
+        </AppBarButton>
+        <AppBarButton Name="btCompactOverlay"
+                        Label="Mini Mode"
+                       IsEnabled="True"
+                          x:FieldModifier="public"
+                          Visibility="Collapsed">
+            <AppBarButton.Icon>
+                <BitmapIcon  UriSource="/Assets/minimode.png"
+                               Height="36"
+                             Name="bmiMiniMode"
+                             Margin="0,-5,0,0"/>
+            </AppBarButton.Icon>
+        </AppBarButton>
+        <AppBarButton Name="abtInk"
+                      Label="Draw"
+                      Visibility="Collapsed"
+                      x:FieldModifier="public">
+            <AppBarButton.Icon>
+                <FontIcon FontFamily="Segoe MDl2 Assets" Glyph="&#xEE56;"/>
+            </AppBarButton.Icon>
+        </AppBarButton>
+        <AppBarButton Name="abtDownload"
+                        Label="Download"
+                      Visibility="Collapsed"
+                        Icon="Download"
+                        x:FieldModifier="public"/>
+        <AppBarButton Name="btsetting"
+                        Label="Setting"
+                      Visibility="Collapsed"
+                        Icon="Setting"
+                        x:FieldModifier="public"/>
+    </CommandBar>
+</UserControl>

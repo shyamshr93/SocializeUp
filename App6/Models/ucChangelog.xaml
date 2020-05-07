@@ -1,0 +1,173 @@
+﻿<UserControl
+    x:Class="App6.Models.ucChangelog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App6.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    >
+    <Grid Padding="0">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="vsgMain">
+                <VisualState x:Name="vsMobile">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="gdMain.Width" Value="Auto" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="vsDesktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="700" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="gdMain.Width" Value="500" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid Name="gdBlur"
+              HorizontalAlignment="Stretch"
+              Background="#99000000"
+              VerticalAlignment="Stretch"/>
+        <Grid Background="#FF1D212E"
+              Name="gdMain"
+             Margin="0,20"
+             RequestedTheme="Dark">
+            <Grid.ChildrenTransitions>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition />
+                    <ContentThemeTransition/>
+                    <EntranceThemeTransition />
+                    <EdgeUIThemeTransition />
+                </TransitionCollection>
+            </Grid.ChildrenTransitions>
+            <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                        Margin="0,0,0,50"
+                        Grid.Row="1">
+                <StackPanel>
+                    <Grid Background="Transparent" Height="50" />
+                    
+                    <controls:DropShadowPanel   BlurRadius="30.0"
+                                                ShadowOpacity="0.80"
+                                                OffsetX="0"
+                                                Margin="10,10"
+                                                HorizontalAlignment="Center"
+                                                OffsetY="0" 
+                                                Color="Black">
+                        <Image Source="/Assets/meme.png"
+                                    Height="250"
+                                    Grid.Row="2"
+                                    HorizontalAlignment="Center"/>
+                    </controls:DropShadowPanel>
+                    <TextBlock Name="tbChangelog"
+                                       TextWrapping="Wrap"
+                                       FontSize="15"
+                                       LineHeight="24"
+                                       CharacterSpacing="20"
+                                       Margin="10,5,10,5"/>
+                    <VariableSizedWrapGrid Orientation="Horizontal"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            ItemHeight="55"
+                                            ItemWidth="180">
+                        <VariableSizedWrapGrid.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="Height" Value="50" />
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="Padding" Value="10" />
+                                <Setter Property="Width" Value="175" />
+                            </Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="FontSize" Value="18" />
+                            </Style>
+                        </VariableSizedWrapGrid.Resources>
+                        <Button Name="btMail" 
+                                Tag="mail"
+                                Click="btAboutSupport_Click"
+                                Background="#FF272C3D">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE715;"
+                                            Margin="0,0,10,0"
+                                            FontFamily="Segoe MDL2 Assets" />
+                                <TextBlock Text="Mail us"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Name="btRateUs" 
+                                    Tag="rating"
+                                    Background="{Binding ElementName=btMail, Path=Background}"
+                                    Click="btAboutSupport_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE209;"
+                                            Margin="0,0,5,0"
+                                            FontFamily="Segoe MDL2 Assets" />
+                                <TextBlock Text="Rate and Review"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Name="btTwitter" 
+                                    Tag="twitter"
+                                    Background="{Binding ElementName=btMail, Path=Background}"
+                                    Click="btAboutSupport_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/twitter.png"
+                                        Height="25"
+                                        Margin="0,0,10,0"
+                                        Width="25"/>
+                                <TextBlock Text="Twitter"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Name="btSite" 
+                                Tag="site"
+                                Click="btAboutSupport_Click"
+                                Background="{Binding ElementName=btMail, Path=Background}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE909;"
+                                            Margin="0,0,10,0"
+                                            FontFamily="Segoe MDL2 Assets" />
+                                <TextBlock Text="Define Studio"/>
+                            </StackPanel>
+                        </Button>
+
+                    </VariableSizedWrapGrid>
+                </StackPanel>
+            </ScrollViewer>
+            <Grid Height="50" 
+                Background="#FF2E3349"
+                Canvas.ZIndex="1"
+                VerticalAlignment="Top"
+                Name="gdTopPanel">
+                <TextBlock Text="What's New?"
+                            FontSize="20"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                <Button Content="&#xE10a;"
+                        Name="btClose"
+                        VerticalAlignment="Top"
+                        Margin="0"
+                        FontSize="20"
+                        Height="50"
+                        Width="50"  
+                        BorderThickness="0"
+                        Background="Transparent"
+                        FontFamily="Segoe mdl2 assets"
+                        Click="btClose_Click"
+                        HorizontalAlignment="Right" />
+            </Grid>
+            <Button Grid.Row="2" 
+                    Height="50"
+                    Content="Close"
+                    Margin="0,10,0,0"
+                    Click="btClose_Click"
+                    Width="Auto"
+                    BorderThickness="0"
+                    VerticalAlignment="Bottom"
+                    Style="{Binding ElementName=btClose, Path=Style}"
+                    HorizontalAlignment="Stretch"
+                    Background="{Binding ElementName=gdTopPanel, Path=Background}"/>
+        </Grid>
+    </Grid>
+</UserControl>

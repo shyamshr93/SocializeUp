@@ -1,0 +1,249 @@
+﻿<UserControl
+    x:Class="App6.Models.ucSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App6.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Name="Settings">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock" x:Key="SettingsHeader">
+            <Setter Property="Margin" Value="0,10,0,5" />
+        </Style>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+    <StackPanel>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="cbtWhatsApp.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+          <ComboBox Name="cbPageSelection"
+                    Width="240"
+                    BorderBrush="Transparent"
+                    BorderThickness="1"
+                    HorizontalAlignment="Left"
+                    Header="Start-up service"
+                    Margin="0,10,0,5"
+                    Background="{Binding ElementName=Settings, Path=Tag}"
+                    SelectionChanged="cbPageSelection_SelectionChanged">
+                <ComboBoxItem Name="cbtTwitter" >
+                    <StackPanel Orientation="Horizontal"
+                                Height="30">
+                        <Image Height="25"
+                               Source="/Assets/twitter.png" />
+                        <TextBlock Text="Twitter"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="cbtInstagram" >
+                    <StackPanel Orientation="Horizontal"
+                                Height="30">
+                        <Image Height="25"
+                               Source="/Assets/instagram.png" />
+                        <TextBlock Text="Instagram"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Visibility="Visible" Name="cbtWhatsApp">
+                    <StackPanel Orientation="Horizontal"
+                                Height="30">
+                        <Image Height="25"
+                               Source="/Assets/whatsapp.png" />
+                        <TextBlock Text="WhatsApp"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="cbtReddit" >
+                    <StackPanel Orientation="Horizontal"
+                                Height="30">
+                        <Image Height="25"
+                               Source="/Assets/reddit.png" />
+                        <TextBlock Text="Reddit"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="cbtFacebook" >
+                    <StackPanel Orientation="Horizontal"
+                                Height="30">
+                        <Image Height="25"
+                               Source="/Assets/fb.png" />
+                        <TextBlock Text="Facebook"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="cbtTelegram"
+                              Visibility="Collapsed"
+                              >
+                    <StackPanel Orientation="Horizontal"
+                                Height="30">
+                        <Image Height="25"
+                               Source="/Assets/tele.png" />
+                        <TextBlock Text="Telegram"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="cbtGoogle" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal"
+                                Height="30">
+                        <Image Height="25"
+                               Source="/Assets/g+.png" />
+                        <TextBlock Text="Google +"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="cbtSplitView" >
+                    <StackPanel Orientation="Horizontal"
+                                Height="30">
+                        <Image Height="25"
+                               Source="/Assets/splitview.png" />
+                        <TextBlock Text="Split View"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+                </ComboBoxItem>
+            </ComboBox>
+          <ComboBox Name="cbOpenExtLinks"
+                    Header="Open External Links in "
+                    Width="240"
+                    BorderBrush="Transparent"
+                    BorderThickness="1"
+                    Height="65"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Left"
+                    Background="{Binding ElementName=cbPageSelection, Path=Background}"  
+                    SelectionChanged="cbOpenExtLink_SelectionChanged">
+                <ComboBoxItem Name="cbtExternal" Content="External Links in your browser"/>
+                <ComboBoxItem Name="cbtAppLink" Content="External Links in App"/>
+                <ComboBoxItem Name="cbtMultipleLink" Content="Another Instance of App"/>
+                <ComboBoxItem Content="Ask me when I'll open"/>
+            </ComboBox>
+        <TextBlock Text="Services"
+                    Style="{StaticResource SettingsHeader}"
+                    HorizontalAlignment="Left" />
+        <StackPanel Orientation="Vertical"
+                    HorizontalAlignment="Left"
+                    Background="{Binding ElementName=cbPageSelection, Path=Background}"  
+                    Margin="0,0,0,0">
+            <StackPanel.Resources>
+                <Style TargetType="Image">
+                    <Setter Property="Height" Value="45" />
+                    <Setter Property="Width" Value="45" />
+                    <Setter Property="Margin" Value="10,0,0,0" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+                <Style TargetType="ToggleSwitch">
+                    <Setter Property="Margin" Value="20,0,0,0" />
+                    <Setter Property="BorderBrush" Value="#333"/>
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,0" />
+                </Style>
+            </StackPanel.Resources>
+            
+            <StackPanel Orientation="Horizontal"
+                                BorderThickness="0,0,0,1"
+                                BorderBrush="#33000000"
+                                Padding="5">
+                <Image Source="/Assets/Twitter.png" />
+                <ToggleSwitch Name="HideTwitter"
+                            OffContent="Not Disabled"
+                            OnContent="Disabled"
+                            Header="Twitter"
+                            Toggled="HideTwitter_Toggled"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        BorderThickness="0,0,0,1"
+                        BorderBrush="#33000000"
+                        Padding="5">
+                <Image Source="/Assets/Instagram.png"/>
+                <ToggleSwitch Name="HideInstagram"
+                              OffContent="Not Disabled"
+                              OnContent="Disabled"
+                              Header="Instagram"
+                              Toggled="HideInstagram_Toggled"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        BorderThickness="0,0,0,1"
+                        Visibility="{Binding ElementName=cbtWhatsApp, Path=Visibility}"
+                        BorderBrush="#33000000"
+                        Padding="5">
+                <Image Source="/Assets/whatsapp.png" />
+                 <ToggleSwitch Name="HideWhatsApp"
+                               OffContent="Not Disabled"
+                               OnContent="Disabled"
+                               Header="WhatsApp"
+                               Toggled="HideWhatsApp_Toggled"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        BorderThickness="0,0,0,1"
+                        BorderBrush="#33000000"
+                        Padding="5">
+                <Image Source="/Assets/reddit.png"/>
+                <ToggleSwitch Name="HideReddit"
+                              OffContent="Not Disabled"
+                              OnContent="Disabled"
+                              Header="Reddit"
+                              Toggled="HideReddit_Toggled"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        BorderThickness="0,0,0,1"
+                        BorderBrush="#33000000"
+                        Padding="5">
+                <Image Source="/Assets/fb.png"/>
+                <ToggleSwitch Name="HideFacebook"
+                              OffContent="Not Disabled"
+                              OnContent="Disabled"
+                              Header="Facebook"
+                              Toggled="HideFacebook_Toggled"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        BorderThickness="0,0,0,1"
+                        BorderBrush="#33000000"
+                        Padding="5">
+                <TextBlock Text="&#xE746;"
+                           FontFamily="Segoe MDl2 Assets"
+                           FontSize="40"
+                           VerticalAlignment="Center"
+                           Width="45"
+                           Margin="10,0,0,0"/>
+                <ToggleSwitch Name="HideMix"
+                                OffContent="Not Disabled"
+                                OnContent="Disabled"
+                                Header="Split View"
+                                Toggled="HideMix_Toggled"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        BorderThickness="0,0,0,1"
+                        Visibility="{Binding ElementName=cbtTelegram, Path=Visibility}"
+                        BorderBrush="#33000000"
+                        Padding="5">
+                <Image Source="/Assets/tele.png"/>
+                 <ToggleSwitch Name="HideTelegram"
+                                OffContent="Not Disabled"
+                                OnContent="Disabled"
+                                Header="Telegram"
+                                Toggled="HideTelegram_Toggled"/>
+            </StackPanel>
+            
+            
+        </StackPanel>
+    </StackPanel>        
+    </ScrollViewer>
+</UserControl>

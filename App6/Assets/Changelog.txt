@@ -1,0 +1,8 @@
+﻿Version 6.7.8
+• Fixed Twitter Login issue.
+• Updated Twitter, Instagram Dark Mode.
+• Updated "Our Apps" UI in Settings Page.
+• Performance Improvements.
+
+Let us know what you want to see next in Socialize up. We are listening!
+As always, Thank you very much for using our app. Leave a 5 stars for Socialize Up on Windows Store if you like to. It means a lot to us!

@@ -1,0 +1,3 @@
+MainPackage=C:\Users\Shyam\documents\visual studio 2015\Projects\App6\App6\bin\x86\Release\Upload\App6_1.1.2.0_x86.appx
+SymbolPackage=C:\Users\Shyam\documents\visual studio 2015\Projects\App6\App6\AppPackages\App6_1.1.2.0\App6_1.1.2.0_x86.appxsym
+ResourcePack=C:\Users\Shyam\documents\visual studio 2015\Projects\App6\App6\_scale-100.appx
